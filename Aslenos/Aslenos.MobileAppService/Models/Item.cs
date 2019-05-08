@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Aslenos.Models
+﻿namespace Aslenos.Models
 {
     public class Item
     {

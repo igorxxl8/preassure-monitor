@@ -1,14 +1,12 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
-
 using Aslenos.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aslenos.Controllers
 {
     [Route("api/[controller]")]
     public class ItemController : Controller
     {
-
         private readonly IItemRepository ItemRepository;
 
         public ItemController(IItemRepository itemRepository)
@@ -25,27 +23,24 @@ namespace Aslenos.Controllers
         [HttpGet("{id}")]
         public Item GetItem(string id)
         {
-            Item item = ItemRepository.Get(id);
+            var item = ItemRepository.Get(id);
             return item;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]Item item)
+        public IActionResult Create([FromBody] Item item)
         {
             try
             {
-                if (item == null || !ModelState.IsValid)
-                {
-                    return BadRequest("Invalid State");
-                }
+                if (item == null || !ModelState.IsValid) return BadRequest("Invalid State");
 
                 ItemRepository.Add(item);
-
             }
             catch (Exception)
             {
                 return BadRequest("Error while creating");
             }
+
             return Ok(item);
         }
 
@@ -54,16 +49,14 @@ namespace Aslenos.Controllers
         {
             try
             {
-                if (item == null || !ModelState.IsValid)
-                {
-                    return BadRequest("Invalid State");
-                }
+                if (item == null || !ModelState.IsValid) return BadRequest("Invalid State");
                 ItemRepository.Update(item);
             }
             catch (Exception)
             {
                 return BadRequest("Error while creating");
             }
+
             return NoContent();
         }
 

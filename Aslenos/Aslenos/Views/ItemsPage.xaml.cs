@@ -1,29 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using Aslenos.Models;
-using Aslenos.Views;
-using Aslenos.ViewModels;
+using System.Collections.ObjectModel;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
-using System.Collections.ObjectModel;
 using Plugin.BLE.Abstractions.Exceptions;
+using Xamarin.Forms;
 
 namespace Aslenos.Views
 {
     public partial class ItemsPage : ContentPage
     {
-        IAdapter Adapter { get; }
-        IBluetoothLE BluetoothLE { get; }
-        ICollection<IDevice> DevicesList { get; }
-        IDevice Device { get; set; }
-
         public ItemsPage()
         {
             InitializeComponent();
@@ -34,6 +20,11 @@ namespace Aslenos.Views
             DevicesList = new ObservableCollection<IDevice>();
             DevicesListView.ItemsSource = DevicesList;
         }
+
+        private IAdapter Adapter { get; }
+        private IBluetoothLE BluetoothLE { get; }
+        private ICollection<IDevice> DevicesList { get; }
+        private IDevice Device { get; set; }
 
         private async void DevicesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -52,7 +43,6 @@ namespace Aslenos.Views
                 await Adapter.ConnectToDeviceAsync(Device);
 
                 await DisplayAlert("Conectado", "Status:" + Device.State, "OK");
-
             }
             catch (DeviceConnectionException ex)
             {
@@ -62,11 +52,9 @@ namespace Aslenos.Views
 
         private async void SearchDevice(object sender, EventArgs e)
         {
-            
-
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
+        private async void AddItem_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
@@ -97,10 +85,7 @@ namespace Aslenos.Views
                 };
 
                 await Adapter.StartScanningForDevicesAsync();
-
             }
         }
-
-        
     }
 }

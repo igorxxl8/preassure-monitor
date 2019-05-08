@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Aslenos.Models;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
-using Aslenos.Models;
 
 namespace Aslenos.Services
 {
     public class AzureDataStore : IDataStore<Item>
     {
-        HttpClient client;
-        IEnumerable<Item> items;
+        private readonly HttpClient client;
+        private IEnumerable<Item> items;
 
         public AzureDataStore()
         {
@@ -22,12 +22,13 @@ namespace Aslenos.Services
             items = new List<Item>();
         }
 
-        bool IsConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
+        private bool IsConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
+
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
             if (forceRefresh && IsConnected)
             {
-                var json = await client.GetStringAsync($"api/item");
+                var json = await client.GetStringAsync("api/item");
                 items = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Item>>(json));
             }
 
@@ -52,7 +53,8 @@ namespace Aslenos.Services
 
             var serializedItem = JsonConvert.SerializeObject(item);
 
-            var response = await client.PostAsync($"api/item", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync("api/item",
+                new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
             return response.IsSuccessStatusCode;
         }

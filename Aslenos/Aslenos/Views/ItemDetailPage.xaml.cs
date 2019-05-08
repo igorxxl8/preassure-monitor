@@ -1,16 +1,12 @@
-﻿using System;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using Aslenos.Models;
+﻿using Aslenos.Models;
 using Aslenos.ViewModels;
+using Xamarin.Forms;
 
 namespace Aslenos.Views
 {
     public partial class ItemDetailPage : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        private readonly ItemDetailViewModel viewModel;
 
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {
