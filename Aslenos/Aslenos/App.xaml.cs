@@ -1,8 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Aslenos.Services;
+﻿using Aslenos.Services;
 using Aslenos.Views;
+using Xamarin.Forms;
 
 namespace Aslenos
 {
