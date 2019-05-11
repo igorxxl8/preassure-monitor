@@ -20,27 +20,27 @@ namespace Aslenos.Views
                 new Option
                 {
                     Name = "Pulsation analyze",
-                    Command = new Command(() => DisplayAlert("1", "", "OK"))
+                    Command = new Command(() => Navigation.PushModalAsync(new PulsationAnalyzePage()))
                 },
                 new Option
                 {
                     Name = "Manometer",
-                    Command = new Command(() => DisplayAlert("2", "", "OK"))
+                    Command = new Command(() => Navigation.PushModalAsync(new ManometerPage()))
                 },
                 new Option
                 {
                     Name = "Open trend",
-                    Command = new Command(() => DisplayAlert("3", "", "OK"))
+                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendPage()))
                 },
                 new Option
                 {
                     Name = "Open trend graphic",
-                    Command = new Command(() => DisplayAlert("4", "", "OK"))
+                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendGraphicPage()))
                 },
                 new Option
                 {
                     Name = "Open vacuum",
-                    Command = new Command(() => DisplayAlert("5", "", "OK"))
+                    Command = new Command(() => Navigation.PushModalAsync(new OpenVacuumPage()))
                 },
             };
 

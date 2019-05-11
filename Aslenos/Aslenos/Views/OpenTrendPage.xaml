@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aslenos.Views.OpenTrendPage">
+    <ContentPage.Content>
+        <Grid x:Name="TablePulsationParams" Margin="10" BackgroundColor="Black" ColumnSpacing="3" RowSpacing="3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackLayout BackgroundColor="White">
+                <Label Text="Oscillation" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout BackgroundColor="White" Grid.Row="1" Grid.Column="0">
+                <Label Text="Phase A(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Grid.Column="0" BackgroundColor="White">
+                <Label Text="Phase B(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="3" Grid.Column="0" BackgroundColor="White">
+                <Label Text="Phase C(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="4" Grid.Column="0" BackgroundColor="White">
+                <Label Text="Phase D(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="5" Grid.Column="0" BackgroundColor="White">
+                <Label Text="Phase E(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="6" Grid.Column="0" BackgroundColor="White">
+                <Label Text="Phase F(%)" FontAttributes="Bold"/>
+                <Label Text="ms"/>
+            </StackLayout>
+            <StackLayout Grid.Row="7" Grid.Column="0" BackgroundColor="White">
+                <Label Text="vacuum min" FontAttributes="Bold"/>
+                <Label Text="kPa"/>
+            </StackLayout>
+            <StackLayout Grid.Row="8" Grid.Column="0" BackgroundColor="White">
+                <Label Text="vacuum max" FontAttributes="Bold"/>
+                <Label Text="kPa"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
