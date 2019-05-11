@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Aslenos.Interfaces;
+using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Device = Aslenos.Models.Device;
@@ -35,12 +36,22 @@ namespace Aslenos.Views
             };
         }
 
-        private void OnConnectClicked(object sender, EventArgs e)
+        private async void OnConnectClicked(object sender, EventArgs e)
         {
             var selectedDevice = DevicesList.SelectedItem;
             if (selectedDevice == null) return;
             DisplayAlert("Selected", ((Device)selectedDevice).Text, "OK");
             DevicesList.SelectedItem = null;
+
+            var filename = "test.txt";
+            if (await DependencyService.Get<IFileWorker>().ExistsAsync(filename))
+            {
+                // запрашиваем разрешение на перезапись
+                bool isRewrited = await DisplayAlert("Подверждение", "Файл уже существует, перезаписать его?", "Да", "Нет");
+                if (isRewrited == false) return;
+            }
+            // перезаписываем файл
+            await DependencyService.Get<IFileWorker>().SaveTextAsync(filename, "test text");
         }
     }
 }
