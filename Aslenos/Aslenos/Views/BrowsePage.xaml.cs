@@ -16,14 +16,14 @@ namespace Aslenos.Views
     {
         private Bluetooth Bluetooth { get; }
 
-        private readonly JsonDataKeeper<IList<Device>> _dataKeeper;
+        private readonly JsonDataKeeper<IList<Device>, Device> _dataKeeper;
 
         public BrowsePage()
         {
             InitializeComponent();
 
             Bluetooth = DependencyService.Get<Bluetooth>();
-            _dataKeeper = DependencyService.Get<JsonDataKeeper<IList<Device>>>();
+            _dataKeeper = DependencyService.Get<JsonDataKeeper<IList<Device>, Device>>();
             _dataKeeper.Filename = "browse.json";
         }
 
@@ -31,7 +31,7 @@ namespace Aslenos.Views
         {
             var selectedDevice = DevicesList.SelectedItem;
             if (selectedDevice == null) return;
-            await DisplayAlert("Selected", ((Device)selectedDevice).Text, "OK");
+            await DisplayAlert("Selected", ((Device)selectedDevice).Name, "OK");
             DevicesList.SelectedItem = null;
         }
 

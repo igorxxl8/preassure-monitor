@@ -32,9 +32,9 @@ namespace Aslenos.Services
             return DevicesList;
         }
 
-        public IDevice GetDevice()
+        public (Guid Id, string Name) GetDevice()
         {
-            return Device;
+            return (Device.Id, Device.Name);
         }
 
         public bool IsBluetoothOn()
