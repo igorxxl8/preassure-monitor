@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Aslenos.Helpers;
-using Aslenos.Interfaces;
 using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Device = Aslenos.Models.Device;
 
 namespace Aslenos.Views
 {
@@ -23,6 +16,7 @@ namespace Aslenos.Views
 
             Bluetooth = DependencyService.Get<Bluetooth>();
             DevicesList.ItemsSource = Bluetooth.GetDevices();
+            DevicesList.Refreshing += (s, e) => ReScanDevices();
 
             Bluetooth.SearchDevices();
         }
@@ -53,6 +47,12 @@ namespace Aslenos.Views
             {
                 await DisplayAlert("Connection status:", "Сonnection error.", "Try again");
             }
+        }
+
+        private void ReScanDevices()
+        {
+            Bluetooth.SearchDevices();
+            DevicesList.IsRefreshing = false;
         }
     }
 }

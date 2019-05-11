@@ -8,16 +8,14 @@
         <StackLayout>
 
             <ListView x:Name="DevicesList"
+                      IsPullToRefreshEnabled="true"
                       ItemSelected="DevicesList_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-
                             <StackLayout Orientation="Vertical">
                                 <Label Margin="10" Text="{Binding Name}"/>
-                                <Label Margin="10" Text="{Binding Address}"/>
                             </StackLayout>
-
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
