@@ -2,11 +2,25 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Aslenos.Views.ArchivePage">
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="MenuItemLoad" Order="Primary" Text="Load" Priority="0" Clicked="OnLoadButtonClicked"/>
+        <ToolbarItem x:Name="MenuItemAdd" Order="Primary" Text="Add" Priority="1" Clicked="OnAddButtonClicked"/>
+    </ContentPage.ToolbarItems>-->
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="OptionsList">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label x:Name="{Binding Id}" Margin="10" Text="{Binding Name}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
