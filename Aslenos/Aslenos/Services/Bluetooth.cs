@@ -15,6 +15,9 @@ namespace Aslenos.Services
         IDevice Device { get; set; }
         IList<IDevice> DevicesList { get; }
 
+        ICharacteristic CharacteristicRX { get; set; }
+        ICharacteristic CharacteristicTX { get; set; }
+
         public Bluetooth()
         {
             BluetoothLE = CrossBluetoothLE.Current;
@@ -62,9 +65,11 @@ namespace Aslenos.Services
             Device = DevicesList[selectedIndex];
 
             await Adapter.StopScanningForDevicesAsync();
+
             try
             {
                 await Adapter.ConnectToDeviceAsync(Device);
+                AddListenerForDevice();
 
                 return true;
             }
@@ -72,6 +77,20 @@ namespace Aslenos.Services
             {
                 return false;
             }
+        }
+
+        public async void AddListenerForDevice()
+        {
+            var service = await Device.GetServiceAsync(Guids.UART_SERVICE);
+            CharacteristicRX = await service.GetCharacteristicAsync(Guids.RX_DATA_CHARACTERISTIC);
+            CharacteristicTX = await service.GetCharacteristicAsync(Guids.TX_DATA_CHARACTERISTIC);
+
+            CharacteristicRX.ValueUpdated += (o, args) =>
+            {
+                byte[] bytes = args.Characteristic.Value;
+            };
+
+            await CharacteristicRX.StartUpdatesAsync();
         }
     }
 }
