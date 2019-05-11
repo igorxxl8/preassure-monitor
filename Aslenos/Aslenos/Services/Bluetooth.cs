@@ -90,6 +90,21 @@ namespace Aslenos.Services
             }
         }
 
+        public async Task<bool> TryConnectToDeviceWithGuid(Guid guid)
+        {
+            try
+            {
+                await Adapter.ConnectToKnownDeviceAsync(guid);
+                AddListenerForDevice();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async void AddListenerForDevice()
         {
             var service = await Device.GetServiceAsync(Guids.UART_SERVICE);

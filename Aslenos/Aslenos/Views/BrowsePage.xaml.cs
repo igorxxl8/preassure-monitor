@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Aslenos.Helpers;
 using Aslenos.Interfaces;
 using Aslenos.Services;
 using Xamarin.Forms;
@@ -16,33 +17,42 @@ namespace Aslenos.Views
     {
         private Bluetooth Bluetooth { get; }
 
-        private readonly JsonDataKeeper<IList<Device>, Device> _dataKeeper;
-
         public BrowsePage()
         {
             InitializeComponent();
 
             Bluetooth = DependencyService.Get<Bluetooth>();
-            _dataKeeper = DependencyService.Get<JsonDataKeeper<IList<Device>, Device>>();
-            _dataKeeper.Filename = "browse.json";
+            DevicesList.ItemsSource = Bluetooth.GetDevices();
+
+            Bluetooth.SearchDevices();
         }
 
-        private async void OnConnectClicked(object sender, EventArgs e)
+        private async void DevicesList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var selectedDevice = DevicesList.SelectedItem;
-            if (selectedDevice == null) return;
-            await DisplayAlert("Selected", ((Device)selectedDevice).Name, "OK");
-            DevicesList.SelectedItem = null;
-        }
 
-        private async void OnLoadButtonClicked(object sender, EventArgs e)
-        {
-            DevicesList.ItemsSource = await _dataKeeper.Browse();
-        }
+            if (selectedDevice == null)
+            {
+                return;
+            }
 
-        private async void OnAddButtonClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage()));
+            var answer = await DisplayAlert("Info", "Do you want to connect to this device", "YES", "NO");
+
+            if (!answer)
+            {
+                return;
+            }
+
+            var result = await Bluetooth.TryConnectToDevice(selectedDevice);
+
+            if (result)
+            {
+                await DisplayAlert("Connection status:", "The device is successfully connected.", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Connection status:", "Сonnection error.", "Try again");
+            }
         }
     }
 }

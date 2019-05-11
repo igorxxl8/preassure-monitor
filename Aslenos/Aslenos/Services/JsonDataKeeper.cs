@@ -13,8 +13,13 @@ namespace Aslenos.Services
 
         public async Task<T> Browse()
         {
-            if (!await FileWorker.ExistsAsync(Filename)) return default;
+            if (!await FileWorker.ExistsAsync(Filename))
+            {
+                await FileWorker.SaveTextAsync(Filename, "[]");
+            }
+
             var serialized = await FileWorker.LoadTextAsync(Filename);
+
             return await Task.FromResult(JsonConvert.DeserializeObject<T>(serialized));
         }
 
@@ -26,13 +31,14 @@ namespace Aslenos.Services
         public async void Save(TK @object)
         {
             var list = await Browse();
-            if (!(list is List<TK> lk))
+
+            if (!(list is List<TK> listK))
             {
                 return;
             }
 
-            lk.Add(@object);
-            Save(lk);
+            listK.Add(@object);
+            Save(listK);
         }
     }
 }
