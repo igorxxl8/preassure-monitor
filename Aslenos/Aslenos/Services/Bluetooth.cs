@@ -29,7 +29,12 @@ namespace Aslenos.Services
 
         public IList<IDevice> GetDevices()
         {
-            return DevicesList ;
+            return DevicesList;
+        }
+
+        public IDevice GetDevice()
+        {
+            return Device;
         }
 
         public bool IsBluetoothOn()
