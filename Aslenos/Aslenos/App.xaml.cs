@@ -1,6 +1,9 @@
-﻿using Aslenos.Services;
+﻿using System.Collections.Generic;
+using Aslenos.Services;
 using Aslenos.Views;
 using Xamarin.Forms;
+
+using Device = Aslenos.Models.Device;
 
 namespace Aslenos
 {
@@ -10,6 +13,9 @@ namespace Aslenos
         {
             InitializeComponent();
 
+            DependencyService.Register<Bluetooth>();
+            DependencyService.Register<JsonDataKeeper<IList<Device>>>();
+            DependencyService.Register<JsonDataKeeper<object>>();
             MainPage = new MainPage();
         }
 

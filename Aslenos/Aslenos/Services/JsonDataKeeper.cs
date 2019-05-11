@@ -7,25 +7,19 @@ namespace Aslenos.Services
 {
     public class JsonDataKeeper<T> where T:class
     {
-        private readonly IFileWorker _fileWorker;
-        private readonly string _filename;
-
-        public JsonDataKeeper(string filename)
-        {
-            _fileWorker = DependencyService.Get<IFileWorker>();
-            _filename = filename;
-        }
+        public IFileWorker FileWorker { get; } = DependencyService.Get<IFileWorker>();
+        public string Filename { get; set; }
 
         public async Task<T> Browse()
         {
-            if (!await _fileWorker.ExistsAsync(_filename)) return default;
-            var serialized = await _fileWorker.LoadTextAsync(_filename);
+            if (!await FileWorker.ExistsAsync(Filename)) return default;
+            var serialized = await FileWorker.LoadTextAsync(Filename);
             return await Task.FromResult(JsonConvert.DeserializeObject<T>(serialized));
         }
 
         public async void Save(T @object)
         {
-            await _fileWorker.SaveTextAsync(_filename, JsonConvert.SerializeObject(@object));
+            await FileWorker.SaveTextAsync(Filename, JsonConvert.SerializeObject(@object));
         }
     }
 }

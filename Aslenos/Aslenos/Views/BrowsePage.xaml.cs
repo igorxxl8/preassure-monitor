@@ -14,12 +14,17 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BrowsePage : ContentPage
     {
+        private Bluetooth Bluetooth { get; }
+
         private readonly JsonDataKeeper<IList<Device>> _dataKeeper;
 
         public BrowsePage()
         {
             InitializeComponent();
-            _dataKeeper = new JsonDataKeeper<IList<Device>>("browse.json");
+
+            Bluetooth = DependencyService.Get<Bluetooth>();
+            _dataKeeper = DependencyService.Get<JsonDataKeeper<IList<Device>>>();
+            _dataKeeper.Filename = "browse.json";
         }
 
         private async void OnConnectClicked(object sender, EventArgs e)
@@ -37,7 +42,7 @@ namespace Aslenos.Views
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage(_dataKeeper)));
+            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage()));
         }
     }
 }
