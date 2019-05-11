@@ -44,7 +44,7 @@ namespace Aslenos.Views
                 },
             };
 
-            OptionsList.ItemSelected += OnOptionSelected; ;
+            OptionsList.ItemSelected += OnOptionSelected;
         }
 
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
