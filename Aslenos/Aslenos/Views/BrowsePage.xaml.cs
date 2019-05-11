@@ -14,44 +14,30 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BrowsePage : ContentPage
     {
+        private readonly JsonDataKeeper<IList<Device>> _dataKeeper;
+
         public BrowsePage()
         {
             InitializeComponent();
-
-            // bluetooth items insert here
-            DevicesList.ItemsSource = new List<Device>
-            {
-                new Device {Text="1"},
-                new Device {Text="2" },
-                new Device {Text="3"},
-                new Device {Text="4" },
-                new Device {Text="5"},
-                new Device {Text="6" },
-                new Device {Text="7"},
-                new Device {Text="8" },
-                new Device {Text="9"},
-                new Device {Text="10" },
-                new Device {Text="11"},
-                new Device {Text="12" },
-            };
+            _dataKeeper = new JsonDataKeeper<IList<Device>>("browse.json");
         }
 
         private async void OnConnectClicked(object sender, EventArgs e)
         {
             var selectedDevice = DevicesList.SelectedItem;
             if (selectedDevice == null) return;
-            DisplayAlert("Selected", ((Device)selectedDevice).Text, "OK");
+            await DisplayAlert("Selected", ((Device)selectedDevice).Text, "OK");
             DevicesList.SelectedItem = null;
+        }
 
-            var filename = "test.txt";
-            if (await DependencyService.Get<IFileWorker>().ExistsAsync(filename))
-            {
-                // запрашиваем разрешение на перезапись
-                bool isRewrited = await DisplayAlert("Подверждение", "Файл уже существует, перезаписать его?", "Да", "Нет");
-                if (isRewrited == false) return;
-            }
-            // перезаписываем файл
-            await DependencyService.Get<IFileWorker>().SaveTextAsync(filename, "test text");
+        private async void OnLoadButtonClicked(object sender, EventArgs e)
+        {
+            DevicesList.ItemsSource = await _dataKeeper.Browse();
+        }
+
+        private async void OnAddButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage()));
         }
     }
 }

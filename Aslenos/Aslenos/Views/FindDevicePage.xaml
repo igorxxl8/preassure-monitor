@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Aslenos.Views.BrowsePage">
+             x:Class="Aslenos.Views.FindDevicePage"
+             Title="Devices">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="MenuItemLoad" Order="Primary" Text="Load" Priority="0" Clicked="OnLoadButtonClicked"/>
-        <ToolbarItem x:Name="MenuItemAdd" Order="Primary" Text="Add" Priority="1" Clicked="OnAddButtonClicked"/>
+        <ToolbarItem x:Name="MenuItemCancel" Order="Primary" Text="Cancel" Priority="0" Clicked="OnCancelClicked" />
+        <ToolbarItem x:Name="MenuItemConnect" Order="Primary" Text="Connect" Priority="0" Clicked="OnConnectClicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.9*"/>
-                <RowDefinition Height="0.1*"/>
-            </Grid.RowDefinitions>
+        <StackLayout>
             <ListView x:Name="DevicesList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -21,7 +18,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Grid.Row="1" Text="Connect" Clicked="OnConnectClicked"/>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
