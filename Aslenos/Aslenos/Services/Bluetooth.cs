@@ -92,5 +92,11 @@ namespace Aslenos.Services
 
             await CharacteristicRX.StartUpdatesAsync();
         }
+
+        public async void SendCommand(string command)
+        {
+            var bytes = Encoding.ASCII.GetBytes(command);
+            await CharacteristicTX.WriteAsync(bytes);
+        }
     }
 }
