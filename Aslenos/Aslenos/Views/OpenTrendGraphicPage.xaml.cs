@@ -42,15 +42,15 @@ namespace Aslenos.Views
             else
             {
                 var findRealTime = (LineSeries)FirstChanelChart.Series[indice];
-                int index = (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Count - 1;
+                int index = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Count - 1;
                 if (index < 0)
                 {
-                    (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
+                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource)?.Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
                 }
                 else
                 {
-                    var rtd = (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Last();
-                    (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
+                    var rtd = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Last();
+                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
                 }
             }
 
@@ -65,15 +65,15 @@ namespace Aslenos.Views
             else
             {
                 var findRealTime = (LineSeries)SecondChanelChart.Series[indicex];
-                int index = (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Count - 1;
+                int index = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Count - 1;
                 if (index < 0)
                 {
-                    (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
+                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
                 }
                 else
                 {
-                    var rtd = (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Last();
-                    (findRealTime.ItemsSource as ObservableCollection<RealTimeDeviceData>).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
+                    var rtd = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Last();
+                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
                 }
             }
 
