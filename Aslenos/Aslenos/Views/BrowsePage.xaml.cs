@@ -37,7 +37,7 @@ namespace Aslenos.Views
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage()));
+            await Navigation.PushModalAsync(new NavigationPage(new FindDevicePage(_dataKeeper)));
         }
     }
 }
