@@ -3,6 +3,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,20 +11,25 @@ namespace Aslenos.Services
 {
     class Bluetooth
     {
-        IBluetoothLE BluetoothLE { get; }
-        IAdapter Adapter { get; }
-        IDevice Device { get; set; }
-        IList<IDevice> DevicesList { get; }
+        private IBluetoothLE BluetoothLE { get; }
+        private IAdapter Adapter { get; }
+        private IDevice Device { get; set; }
+        private IList<IDevice> DevicesList { get; }
 
-        ICharacteristic CharacteristicRX { get; set; }
-        ICharacteristic CharacteristicTX { get; set; }
+        private ICharacteristic CharacteristicRX { get; set; }
+        private ICharacteristic CharacteristicTX { get; set; }
 
         public Bluetooth()
         {
             BluetoothLE = CrossBluetoothLE.Current;
             Adapter = CrossBluetoothLE.Current.Adapter;
 
-            DevicesList = new List<IDevice>();
+            DevicesList = new ObservableCollection<IDevice>();
+        }
+
+        public IList<IDevice> GetDevices()
+        {
+            return DevicesList ;
         }
 
         public bool IsBluetoothOn()
@@ -60,9 +66,9 @@ namespace Aslenos.Services
             await Adapter.StartScanningForDevicesAsync();
         }
 
-        public async Task<bool> TryConnectToDevice(int selectedIndex)
+        public async Task<bool> TryConnectToDevice(object device)
         {
-            Device = DevicesList[selectedIndex];
+            Device = device as IDevice;
 
             await Adapter.StopScanningForDevicesAsync();
 

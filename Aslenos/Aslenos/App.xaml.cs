@@ -10,6 +10,8 @@ namespace Aslenos
         {
             InitializeComponent();
 
+            DependencyService.Register<Bluetooth>();
+
             MainPage = new MainPage();
         }
 

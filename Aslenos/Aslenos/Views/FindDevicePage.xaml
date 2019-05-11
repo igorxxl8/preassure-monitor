@@ -7,17 +7,28 @@
         <ToolbarItem x:Name="MenuItemCancel" Order="Primary" Text="Cancel" Priority="0" Clicked="OnCancelClicked" />
         <ToolbarItem x:Name="MenuItemConnect" Order="Primary" Text="Connect" Priority="0" Clicked="OnConnectClicked"/>
     </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
+        
         <StackLayout>
+            
             <ListView x:Name="DevicesList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label x:Name="{Binding Id}" Margin="10" Text="{Binding Text}"/>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="10" Text="{Binding Name}"/>
+                                <Label Margin="10" Text="{Binding Address}"/>
+                            </StackLayout>
+                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
         </StackLayout>
+        
     </ContentPage.Content>
+    
 </ContentPage>
