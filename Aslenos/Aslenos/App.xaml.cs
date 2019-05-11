@@ -11,6 +11,7 @@ namespace Aslenos
     {
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTk4NzRAMzEzNzJlMzEyZTMwajJ1TmdoTTY1TFgzYXhGWnNnYmI4Y3NqL2EyNUZRZjcvZ0d0dmZQd1JLTT0=");
             InitializeComponent();
 
             DependencyService.Register<Bluetooth>();

@@ -1,12 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Aslenos.Views.OpenTrendGraphicPage">
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             x:Class="Aslenos.Views.OpenTrendGraphicPage"
+             xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Margin="10">
+
+            <Grid.BindingContext>
+                <local:RealTimeViewModel/>
+            </Grid.BindingContext>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <chart:SfChart Grid.Row="0" x:Name="FirstChanelChart">
+                <chart:SfChart.Title>
+                    <chart:ChartTitle Text="Chanel 1"/>
+                </chart:SfChart.Title>
+                <chart:SfChart.PrimaryAxis>
+                    <chart:CategoryAxis/>
+                </chart:SfChart.PrimaryAxis>
+                <chart:SfChart.SecondaryAxis>
+                    <chart:NumericalAxis/>
+                </chart:SfChart.SecondaryAxis>
+                <chart:LineSeries x:Name="FirstChanelSeries" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="Speed" YBindingPath="Rate"/>
+        </chart:SfChart>
+            <chart:SfChart Grid.Row="1" x:Name="SecondChanelChart">
+                <chart:SfChart.Title>
+                    <chart:ChartTitle Text="Chanel 2"/>
+                </chart:SfChart.Title>
+                <chart:SfChart.PrimaryAxis>
+                    <chart:CategoryAxis>
+                    </chart:CategoryAxis>
+                </chart:SfChart.PrimaryAxis>
+                <chart:SfChart.SecondaryAxis>
+                    <chart:NumericalAxis>
+                    </chart:NumericalAxis>
+                </chart:SfChart.SecondaryAxis>
+                <chart:LineSeries x:Name="SecondChanelSeries" ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="Speed" YBindingPath="Rate"/>
+            </chart:SfChart>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
