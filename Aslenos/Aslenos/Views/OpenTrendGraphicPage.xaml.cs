@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using Aslenos.Models;
+using Aslenos.Services;
 using Aslenos.ViewModel;
 using Syncfusion.SfChart.XForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Device = Xamarin.Forms.Device;
 
 namespace Aslenos.Views
 {
@@ -18,66 +15,64 @@ namespace Aslenos.Views
     {
         private readonly Random _random;
         private readonly RealTimeViewModel _vm;
+        private readonly RealTimeDeviceData _rtdd;
+        private readonly StoppableTimer _timer;
 
         public OpenTrendGraphicPage()
         {
             InitializeComponent();
             _vm = new RealTimeViewModel();
             _random = new Random();
+            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
             BindingContext = _vm;
-            Device.StartTimer(TimeSpan.FromSeconds(1), TimerTick);
-
         }
 
-        private bool TimerTick()
+        private void TimerTick()
         {
             var indice = FirstChanelChart.Series.IndexOf(FirstChanelSeries);
             if (indice < 0)
             {
                 FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData; 
-                FirstChanelSeries.XBindingPath = "Speed";
-                FirstChanelSeries.YBindingPath = "Rate";
+                FirstChanelSeries.XBindingPath = "AxesX";
+                FirstChanelSeries.YBindingPath = "AxesY";
                 FirstChanelChart.Series.Add(FirstChanelSeries);
             }
             else
             {
                 var findRealTime = (LineSeries)FirstChanelChart.Series[indice];
-                int index = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Count - 1;
-                if (index < 0)
-                {
-                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource)?.Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
-                }
-                else
-                {
-                    var rtd = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Last();
-                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
-                }
+                ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
+
             }
 
             var indicex = SecondChanelChart.Series.IndexOf(SecondChanelSeries);
             if (indicex < 0)
             {
                 SecondChanelSeries.ItemsSource = _vm.SecondChanelSeriesData;
-                SecondChanelSeries.XBindingPath = "Speed";
-                SecondChanelSeries.YBindingPath = "Rate";
+                SecondChanelSeries.XBindingPath = "AxesX";
+                SecondChanelSeries.YBindingPath = "AxesY";
                 SecondChanelChart.Series.Add(SecondChanelSeries);
             }
             else
             {
-                var findRealTime = (LineSeries)SecondChanelChart.Series[indicex];
-                int index = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Count - 1;
-                if (index < 0)
-                {
-                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = 1, Rate = _random.Next(0, 10000) });
-                }
-                else
-                {
-                    var rtd = ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Last();
-                    ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(new RealTimeDeviceData() { Speed = rtd.Speed + 1, Rate = _random.Next(0, 10000) });
-                }
+                var findRealTime = (LineSeries)SecondChanelChart.Series[indice];
+                ((ObservableCollection<RealTimeDeviceData>)findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
             }
+        }
 
-            return true;
+        private void DataButton_OnClicked(object sender, EventArgs e)
+        {
+            Ch1Data.IsVisible = !Ch1Data.IsVisible;
+            Ch2Data.IsVisible = !Ch2Data.IsVisible;
+        }
+
+        private void StopButton_OnClicked(object sender, EventArgs e)
+        {
+            _timer.Stop();
+        }
+
+        private void StartButton_OnClicked(object sender, EventArgs e)
+        {
+            _timer.Start();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using Aslenos.Models;
 
 namespace Aslenos.Services
 {
@@ -58,7 +59,7 @@ namespace Aslenos.Services
 
         public Calculation()
         {
-            TimerCallback = new TimerCallback(ChangeBuffer);
+            TimerCallback = ChangeBuffer;
         }
 
         public void AdcDataSplit(byte[] data)
@@ -103,6 +104,7 @@ namespace Aslenos.Services
                 packageCount = 1;
             }
 
+            var realtimeData = DeviceDataProvider.GetProvider.Data;
             for (int i = 0; i < adcDataSize[bufferNumber ^ 1]; i++)
             {
                 if (i % 2 == 0)
@@ -110,13 +112,16 @@ namespace Aslenos.Services
                     var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 0);
                     // TODO add to graphic = x: time(or just a number of point) y: point
+                    realtimeData.AxesX++;
+                    realtimeData.AxesY = point;
 
                 }
                 else
                 {
                     var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 1);
-
+                    realtimeData.AxesX++;
+                    realtimeData.AxesY = point;
                     // TODO add to graphic = x: time(or just a number of point) y: point
 
                 }

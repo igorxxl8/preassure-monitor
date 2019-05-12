@@ -1,15 +1,18 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using Aslenos.Helpers;
 using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 namespace Aslenos.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BrowsePage : ContentPage
     {
         private Bluetooth Bluetooth { get; }
+#if DEBUG
+        private readonly MockImpulseInvoker _impulseInvoker;
+#endif
 
         public BrowsePage()
         {
@@ -20,10 +23,13 @@ namespace Aslenos.Views
             DevicesList.Refreshing += (s, e) => ReScanDevices();
 
             Bluetooth.SearchDevices();
-        }
+#if DEBUG
+        _impulseInvoker = new MockImpulseInvoker();
+#endif
+    }
 
 
-        private async void DevicesList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private async void DevicesList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var selectedDevice = DevicesList.SelectedItem;
 
@@ -59,12 +65,20 @@ namespace Aslenos.Views
 
         private void StartADc_Clicked(object sender, EventArgs e)
         {
+#if DEBUG
+            _impulseInvoker.Start();
+#else
             Bluetooth.SendCommand(Commands.START);
+#endif
         }
 
         private void StopADC_Clicked(object sender, EventArgs e)
         {
+#if DEBUG
+            _impulseInvoker.Stop();
+#else
             Bluetooth.SendCommand(Commands.STOP);
+#endif
         }
     }
 }

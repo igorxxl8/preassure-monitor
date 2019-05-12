@@ -2,7 +2,7 @@
 {
     public class RealTimeDeviceData
     {
-        public int Speed { get; set; }
-        public double Rate { get; set; }
+        public int AxesX { get; set; }
+        public double AxesY { get; set; }
     }
 }
