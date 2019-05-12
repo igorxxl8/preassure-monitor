@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Aslenos.Services
 {
@@ -28,7 +29,7 @@ namespace Aslenos.Services
             BluetoothLE = CrossBluetoothLE.Current;
             Adapter = CrossBluetoothLE.Current.Adapter;
 
-            Calculation = new Calculation();
+            Calculation = DependencyService.Get<Calculation>();
 
             DevicesList = new ObservableCollection<IDevice>();
         }

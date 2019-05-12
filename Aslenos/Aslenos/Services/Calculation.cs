@@ -10,21 +10,26 @@ namespace Aslenos.Services
     {
         private int[,] adcData = new int[2, Constants.MAX_BUFF_SIZE];
         private int[] adcDataSize = new int[2];
+
         private int bufferNumber = 0;
 
-        private int countPackage = 0;
+        private int packageCount = 0;
+        private IList<int> packageCountList = new List<int>();
 
-        private TimerCallback timerCallback;
-        private Timer timer;
+        private int packageAverageValue = 0;
+        private int samplingTime = 0;
+
+        private TimerCallback TimerCallback { get; }
+        private Timer Timer { get; set; }
 
         public Calculation()
         {
-            timerCallback = new TimerCallback(ChangeBuffer);
+            TimerCallback = new TimerCallback(ChangeBuffer);
         }
 
         public void AdcDataSplit(byte[] data)
         {
-            countPackage++;
+            packageCount++;
 
             if (data.Length % 2 == 0)
             {
@@ -45,20 +50,55 @@ namespace Aslenos.Services
         {
             bufferNumber ^= 1;
 
-            if (countPackage > 0)
+            if (packageCount > 0)
             {
+                if (packageCountList.Count <= Constants.BUFFER_COUNT)
+                {
+                    packageCountList.Add(packageCount);
+                    packageAverageValue += packageCount;
+                }
+                else
+                {
+                    packageAverageValue -= packageCountList[0];
+                    packageCountList.RemoveAt(0);
+                    packageCountList.Add(packageCount);
+                    packageAverageValue += packageCount;
+                }
 
+                samplingTime = Constants.UPDATE_INTERVAL * 2 / packageAverageValue;
+                packageCount = 1;
             }
+
+            for (int i = 0; i < adcDataSize[bufferNumber ^ 1]; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
+                    // TODO add to graphic = x: time(or just a number of point) y: point
+
+                }
+                else
+                {
+                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
+                    // TODO add to graphic = x: time(or just a number of point) y: point
+
+                }
+            }
+        }
+
+        private void FindFluctuations(double point, int id)
+        {
+
         }
 
         public void StartTimer()
         {
-            timer = new Timer(timerCallback, null, 0, Constants.UPDATE_INTERVAL);
+            Timer = new Timer(TimerCallback, null, 0, Constants.UPDATE_INTERVAL);
         }
 
         public void StopTimer()
         {
-            timer.Dispose();
+            Timer.Dispose();
         }
 
     }
