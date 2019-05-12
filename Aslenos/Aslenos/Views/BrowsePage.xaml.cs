@@ -21,6 +21,7 @@ namespace Aslenos.Views
             Bluetooth.SearchDevices();
         }
 
+
         private async void DevicesList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var selectedDevice = DevicesList.SelectedItem;

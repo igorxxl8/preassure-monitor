@@ -16,6 +16,7 @@ namespace Aslenos
 
             DependencyService.Register<Bluetooth>();
             DependencyService.Register<JsonDataKeeper<IList<Device>, Device>>();
+
             MainPage = new MainPage();
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Aslenos.Helpers
+﻿namespace Aslenos.Helpers
 {
     public static class Commands
     {
