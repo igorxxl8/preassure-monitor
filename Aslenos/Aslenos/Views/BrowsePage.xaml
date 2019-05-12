@@ -19,6 +19,8 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <Button x:Name="StartADC" Text="Start" Clicked="StartADc_Clicked"></Button>
+            <Button x:Name="StopADC" Text="Stop" Clicked="StopADC_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

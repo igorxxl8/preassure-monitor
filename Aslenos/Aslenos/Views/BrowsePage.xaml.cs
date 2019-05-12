@@ -1,4 +1,5 @@
 ﻿using System;
+using Aslenos.Helpers;
 using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -54,6 +55,16 @@ namespace Aslenos.Views
         {
             Bluetooth.SearchDevices();
             DevicesList.IsRefreshing = false;
+        }
+
+        private void StartADc_Clicked(object sender, EventArgs e)
+        {
+            Bluetooth.SendCommand(Commands.START);
+        }
+
+        private void StopADC_Clicked(object sender, EventArgs e)
+        {
+            Bluetooth.SendCommand(Commands.STOP);
         }
     }
 }

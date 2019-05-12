@@ -146,7 +146,19 @@ namespace Aslenos.Services
         public async void SendCommand(string command)
         {
             var bytes = Encoding.ASCII.GetBytes(command);
+
+            if (command == Commands.START)
+            {
+                StartAdc();
+            }
+
+            if (command == Commands.STOP)
+            {
+                StopAdc();
+            }
+
             await CharacteristicTX.WriteAsync(bytes);
+
         }
     }
 }
