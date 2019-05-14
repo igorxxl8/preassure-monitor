@@ -46,13 +46,11 @@ namespace Aslenos.Views
 
         private async void OnOpenButtonClicked(object sender, EventArgs e)
         {
-            var files = _fileWorker.GetFilesAsync();
-            foreach (var file in files.Result)
-            {
-                await DisplayAlert(file, "", "OK");
-            }
+            var files = _fileWorker.GetFilesAsync().Result.ToArray();
+            var archive = await DisplayActionSheet("Choose archive", "Cancel", null, files);
+            
 
-            _jsonKeeper.Filename = files.Result.ToList()[0];
+            _jsonKeeper.Filename = archive;
             _deviceData = await _jsonKeeper.Browse();
         }
     }
