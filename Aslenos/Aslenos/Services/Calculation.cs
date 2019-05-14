@@ -67,7 +67,7 @@ namespace Aslenos.Services
             {
                 for (int i = 0; i < data.Length; i += 2)
                 {
-                    adcData[bufferNumber, adcDataSize[bufferNumber]] = (data[i] << 8) + data[i + 1];
+                    adcData[bufferNumber, adcDataSize[bufferNumber]] = (data[i + 1] << 8) + data[i];
                     adcDataSize[bufferNumber]++;
 
                     if (adcDataSize[bufferNumber] > Constants.MAX_BUFF_SIZE)
@@ -107,7 +107,7 @@ namespace Aslenos.Services
             {
                 if (i % 2 == 0)
                 {
-                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
+                    var point = (adcData[bufferNumber ^ 1, i] );
                     FindFluctuations(point, 0);
 
                     realtimeData.AxesX++;
@@ -115,7 +115,7 @@ namespace Aslenos.Services
                 }
                 else
                 {
-                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
+                    var point = (adcData[bufferNumber ^ 1, i]);
                     FindFluctuations(point, 1);
 
                     realtimeData.AxesX++;

@@ -19,7 +19,7 @@ namespace Aslenos.Views
         {
             InitializeComponent();
             _vm = new DeviceDataViewModel();
-            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
+            _timer = new StoppableTimer(TimeSpan.FromMilliseconds(100), TimerTick);
             BindingContext = _vm;
         }
 
