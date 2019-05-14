@@ -31,9 +31,6 @@
 
             </Grid>
             <chart:SfChart Grid.Column="0" x:Name="FirstChanelChart">
-                <chart:SfChart.Title>
-                    <chart:ChartTitle Text="Chanel 1"/>
-                </chart:SfChart.Title>
                 <chart:SfChart.PrimaryAxis>
                     <chart:CategoryAxis/>
                 </chart:SfChart.PrimaryAxis>

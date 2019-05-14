@@ -48,8 +48,8 @@ namespace Aslenos.Views
         {
             var files = _fileWorker.GetFilesAsync().Result.ToArray();
             var archive = await DisplayActionSheet("Choose archive", "Cancel", null, files);
-            
 
+            if (archive == "Cancel") return;
             _jsonKeeper.Filename = archive;
             _deviceData = await _jsonKeeper.Browse();
         }
