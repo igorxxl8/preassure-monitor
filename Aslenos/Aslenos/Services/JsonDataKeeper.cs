@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Aslenos.Services
 {
-    public class JsonDataKeeper<T, TK>
+    public class JsonDataKeeper<T>
     {
         public IFileWorker FileWorker { get; } = DependencyService.Get<IFileWorker>();
         public string Filename { get; set; }
@@ -23,22 +23,9 @@ namespace Aslenos.Services
             return await Task.FromResult(JsonConvert.DeserializeObject<T>(serialized));
         }
 
-        public async void Save(object @object)
+        public async void Save(T @object)
         {
             await FileWorker.SaveTextAsync(Filename, JsonConvert.SerializeObject(@object));
-        }
-
-        public async void Save(TK @object)
-        {
-            var list = await Browse();
-
-            if (!(list is List<TK> listK))
-            {
-                return;
-            }
-
-            listK.Add(@object);
-            Save(listK);
         }
     }
 }

@@ -21,10 +21,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" x:Name="StartButton" Image="icon_start.png" Clicked="StartButton_OnClicked"/>
                     <Button Grid.Row="1" x:Name="StopButton" Image="icon_pause.png" Clicked="StopButton_OnClicked"/>
                     <Button Grid.Row="2" x:Name="DataButton" Image="icon_info.png" Clicked="DataButton_OnClicked"/>
+                    <Button Grid.Row="3" x:Name="SaveButton" Image="icon_save.png" Clicked="SaveButton_OnClicked"/>
                 </Grid>
 
             </Grid>
