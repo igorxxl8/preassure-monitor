@@ -14,32 +14,21 @@ namespace Aslenos.Views
     {
         private readonly DeviceDataViewModel _vm;
         private readonly StoppableTimer _timer;
+        private readonly DeviceDataProvider _ddp;
 
         public PulsationAnalyzePage()
         {
             InitializeComponent();
             _vm = new DeviceDataViewModel();
-            _timer = new StoppableTimer(TimeSpan.FromMilliseconds(100), TimerTick);
+            _ddp = DeviceDataProvider.GetProvider;
+            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
             BindingContext = _vm;
         }
 
         private void TimerTick()
         {
-            var indice = FirstChanelChart.Series.IndexOf(FirstChanelSeries);
-            if (indice < 0)
-            {
-                FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData;
-                FirstChanelSeries.XBindingPath = "AxesX";
-                FirstChanelSeries.YBindingPath = "AxesY";
-                FirstChanelChart.Series.Add(FirstChanelSeries);
-            }
-            else
-            {
-                var findRealTime = (LineSeries) FirstChanelChart.Series[indice];
-                ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider
-                    .Data);
-
-            }
+            ((ObservableCollection<RealTimeDeviceData>) FirstChanelSeries.ItemsSource).Add(_ddp.FirstChanel);
+            ((ObservableCollection<RealTimeDeviceData>)SecondChanelSeries.ItemsSource).Add(_ddp.SecondChanel);
         }
 
         private void DataButton_OnClicked(object sender, EventArgs e)

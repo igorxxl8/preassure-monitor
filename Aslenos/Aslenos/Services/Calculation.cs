@@ -53,10 +53,13 @@ namespace Aslenos.Services
         private TimerCallback TimerCallback { get; }
         private Timer Timer { get; set; }
 
+        private readonly DeviceDataProvider _dataProvider;
+
         public Calculation()
         {
             TimerCallback = ChangeBuffer;
             InitData();
+            _dataProvider = DeviceDataProvider.GetProvider;
         }
 
         public void AdcDataSplit(byte[] data)
@@ -67,7 +70,7 @@ namespace Aslenos.Services
             {
                 for (int i = 0; i < data.Length; i += 2)
                 {
-                    adcData[bufferNumber, adcDataSize[bufferNumber]] = (data[i + 1] << 8) + data[i];
+                    adcData[bufferNumber, adcDataSize[bufferNumber]] = (data[i] << 8) + data[i + 1];
                     adcDataSize[bufferNumber]++;
 
                     if (adcDataSize[bufferNumber] > Constants.MAX_BUFF_SIZE)
@@ -101,25 +104,26 @@ namespace Aslenos.Services
                 packageCount = 1;
             }
 
-            var realtimeData = DeviceDataProvider.GetProvider.Data;
 
             for (int i = 0; i < adcDataSize[bufferNumber ^ 1]; i++)
             {
                 if (i % 2 == 0)
                 {
-                    var point = (adcData[bufferNumber ^ 1, i] );
+                    var firstChanel = _dataProvider.FirstChanel;
+                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 0);
 
-                    realtimeData.AxesX++;
-                    realtimeData.AxesY = point;
+                    firstChanel.AxesX++;
+                    firstChanel.AxesY = point;
                 }
                 else
                 {
-                    var point = (adcData[bufferNumber ^ 1, i]);
+                    var secondChanel = _dataProvider.FirstChanel;
+                    var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 1);
 
-                    realtimeData.AxesX++;
-                    realtimeData.AxesY = point;
+                    secondChanel.AxesX++;
+                    secondChanel.AxesY = point;
                 }
             }
 
