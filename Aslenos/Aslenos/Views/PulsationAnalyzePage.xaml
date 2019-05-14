@@ -1,12 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Aslenos.Views.PulsationAnalyzePage">
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             x:Class="Aslenos.Views.PulsationAnalyzePage"
+             xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <chart:ChartColorCollection x:Key="ColorBlue">
+                <Color>Blue</Color>
+            </chart:ChartColorCollection>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Margin="5">
+
+            <Grid.BindingContext>
+                <local:RealTimeViewModel/>
+            </Grid.BindingContext>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.9*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" x:Name="StartButton" Image="icon_start.png" Clicked="StartButton_OnClicked"/>
+                    <Button Grid.Row="1" x:Name="StopButton" Image="icon_pause.png" Clicked="StopButton_OnClicked"/>
+                    <Button Grid.Row="2" x:Name="DataButton" Image="icon_info.png" Clicked="DataButton_OnClicked"/>
+                </Grid>
+
+            </Grid>
+            <chart:SfChart Grid.Column="1" x:Name="FirstChanelChart">
+                <chart:SfChart.ColorModel>
+                    <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>
+                </chart:SfChart.ColorModel>
+                <chart:SfChart.Title>
+                    <chart:ChartTitle Text="Chanel 1"/>
+                </chart:SfChart.Title>
+                <chart:SfChart.PrimaryAxis>
+                    <chart:CategoryAxis/>
+                </chart:SfChart.PrimaryAxis>
+                <chart:SfChart.SecondaryAxis>
+                    <chart:NumericalAxis/>
+                </chart:SfChart.SecondaryAxis>
+                <chart:LineSeries x:Name="FirstChanelSeries" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
+            </chart:SfChart>
+           
+            <Grid x:Name="Ch1Data" Grid.Column="1" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="TextColor" Value="Blue"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Style="Label" Text="Oscillation:"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Phase A:" />
+                <Label Grid.Row="2" Grid.Column="0" Text="Phase B:"/>
+                <Label Grid.Row="3" Grid.Column="0" Text="Phase C:"/>
+                <Label Grid.Row="4" Grid.Column="0" Text="Phase D:"/>
+                <Label Grid.Row="5" Grid.Column="0" Text="Phase E:"/>
+                <Label Grid.Row="6" Grid.Column="0" Text="Phase F:"/>
+                <Label Grid.Row="7" Grid.Column="0" Text="Vacuum min:"/>
+                <Label Grid.Row="8" Grid.Column="0" Text="Vacuum max:"/>
+
+                <Label Grid.Row="0" Grid.Column="1" x:Name="Ch1Rotation">0</Label>
+                <Label Grid.Row="1" Grid.Column="1" x:Name="Ch1PhaseA">0</Label>
+                <Label Grid.Row="2" Grid.Column="1" x:Name="Ch1PhaseB">0</Label>
+                <Label Grid.Row="3" Grid.Column="1" x:Name="Ch1PhaseC">0</Label>
+                <Label Grid.Row="4" Grid.Column="1" x:Name="Ch1PhaseD">0</Label>
+                <Label Grid.Row="5" Grid.Column="1" x:Name="Ch1PhaseE">0</Label>
+                <Label Grid.Row="6" Grid.Column="1" x:Name="Ch1PhaseF">0</Label>
+                <Label Grid.Row="7" Grid.Column="1" x:Name="Ch1VacuumMin">0</Label>
+                <Label Grid.Row="8" Grid.Column="1" x:Name="Ch1VacuumMax">0</Label>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -13,16 +13,13 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OpenTrendGraphicPage : ContentPage
     {
-        private readonly Random _random;
         private readonly RealTimeViewModel _vm;
-        private readonly RealTimeDeviceData _rtdd;
         private readonly StoppableTimer _timer;
 
         public OpenTrendGraphicPage()
         {
             InitializeComponent();
             _vm = new RealTimeViewModel();
-            _random = new Random();
             _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
             BindingContext = _vm;
         }
