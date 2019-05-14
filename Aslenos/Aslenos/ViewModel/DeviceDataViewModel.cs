@@ -12,6 +12,8 @@ namespace Aslenos.ViewModel
 
         public DeviceDataViewModel()
         {
+            FirstChanelSeriesData = new ObservableCollection<RealTimeDeviceData>();
+            SecondChanelSeriesData = new ObservableCollection<RealTimeDeviceData>();
         }
 
         public DeviceDataViewModel(IEnumerable<RealTimeDeviceData> first=default, IEnumerable<RealTimeDeviceData> second=default)
