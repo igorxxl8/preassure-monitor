@@ -38,12 +38,7 @@ namespace Aslenos.Views
                 {
                     Name = "Open trend graphic",
                     Command = new Command(() => Navigation.PushModalAsync(new OpenTrendGraphicPage()))
-                },
-                new Option
-                {
-                    Name = "Open vacuum",
-                    Command = new Command(() => Navigation.PushModalAsync(new OpenVacuumPage()))
-                },
+                }
             };
 
             OptionsList.ItemSelected += OnOptionSelected;
@@ -62,8 +57,8 @@ namespace Aslenos.Views
             }
             else
             {
-                OptionsList.IsEnabled = false;
-                RequestToConnectToDevice();
+                //OptionsList.IsEnabled = false;
+                //RequestToConnectToDevice();
             }
 
             base.OnAppearing();

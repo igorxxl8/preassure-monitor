@@ -15,14 +15,14 @@
         <Grid Margin="5">
 
             <Grid.BindingContext>
-                <local:RealTimeViewModel/>
+                <local:DevicDataViewModel/>
             </Grid.BindingContext>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.1*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="1">
                 <Grid VerticalOptions="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -35,7 +35,7 @@
                 </Grid>
 
             </Grid>
-            <chart:SfChart Grid.Column="1" x:Name="FirstChanelChart">
+            <chart:SfChart Grid.Column="0" x:Name="FirstChanelChart">
                 <chart:SfChart.ColorModel>
                     <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>
                 </chart:SfChart.ColorModel>

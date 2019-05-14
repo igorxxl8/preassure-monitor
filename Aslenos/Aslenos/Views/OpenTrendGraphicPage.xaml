@@ -16,9 +16,8 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Margin="5">
-
             <Grid.BindingContext>
-                <local:RealTimeViewModel/>
+                <local:DevicDataViewModel/>
             </Grid.BindingContext>
 
             <Grid.RowDefinitions>
@@ -26,19 +25,7 @@
                 <RowDefinition Height="0.45*"/>
                 <RowDefinition Height="0.45*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" >
-                <Grid HorizontalOptions="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" x:Name="StartButton" Image="icon_start.png" Clicked="StartButton_OnClicked"/>
-                    <Button Grid.Column="1" x:Name="StopButton" Image="icon_pause.png" Clicked="StopButton_OnClicked"/>
-                    <Button Grid.Column="2" x:Name="DataButton" Image="icon_info.png" Clicked="DataButton_OnClicked"/>
-                </Grid>
-
-            </Grid>
+            <Button Grid.Row="0" x:Name="DataButton" Image="icon_info.png" CornerRadius="50" HorizontalOptions="End" Clicked="DataButton_OnClicked"/>
             <chart:SfChart Grid.Row="1" x:Name="FirstChanelChart">
                 <chart:SfChart.ColorModel>
                     <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>

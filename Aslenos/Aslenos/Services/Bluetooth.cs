@@ -51,7 +51,7 @@ namespace Aslenos.Services
 
         public bool IsDeviceConnect()
         {
-            return Device.State == Plugin.BLE.Abstractions.DeviceState.Connected;
+            return Device?.State == Plugin.BLE.Abstractions.DeviceState.Connected;
         }
 
         public async void CheckScanningStatus()

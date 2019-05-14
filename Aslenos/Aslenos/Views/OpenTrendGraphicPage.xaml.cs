@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Aslenos.Models;
 using Aslenos.Services;
 using Aslenos.ViewModel;
@@ -13,34 +12,21 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OpenTrendGraphicPage : ContentPage
     {
-        private readonly RealTimeViewModel _vm;
-        private readonly StoppableTimer _timer;
+        private readonly DevicDataViewModel _vm;
 
         public OpenTrendGraphicPage()
         {
             InitializeComponent();
-            _vm = new RealTimeViewModel();
-            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
+            _vm = new DevicDataViewModel();
             BindingContext = _vm;
+            Setup();
         }
 
-        private void TimerTick()
+        private void Setup()
         {
-            var indice = FirstChanelChart.Series.IndexOf(FirstChanelSeries);
-            if (indice < 0)
-            {
-                FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData; 
-                FirstChanelSeries.XBindingPath = "AxesX";
-                FirstChanelSeries.YBindingPath = "AxesY";
-                FirstChanelChart.Series.Add(FirstChanelSeries);
-            }
-            else
-            {
-                var findRealTime = (LineSeries)FirstChanelChart.Series[indice];
-                ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
+            ((ObservableCollection<RealTimeDeviceData>) FirstChanelSeries.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
 
-            }
-
+        
             var indicex = SecondChanelChart.Series.IndexOf(SecondChanelSeries);
             if (indicex < 0)
             {
@@ -51,7 +37,7 @@ namespace Aslenos.Views
             }
             else
             {
-                var findRealTime = (LineSeries)SecondChanelChart.Series[indice];
+                var findRealTime = (LineSeries)SecondChanelChart.Series[indicex];
                 ((ObservableCollection<RealTimeDeviceData>)findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
             }
         }
@@ -60,16 +46,6 @@ namespace Aslenos.Views
         {
             Ch1Data.IsVisible = !Ch1Data.IsVisible;
             Ch2Data.IsVisible = !Ch2Data.IsVisible;
-        }
-
-        private void StopButton_OnClicked(object sender, EventArgs e)
-        {
-            _timer.Stop();
-        }
-
-        private void StartButton_OnClicked(object sender, EventArgs e)
-        {
-            _timer.Start();
         }
     }
 }
