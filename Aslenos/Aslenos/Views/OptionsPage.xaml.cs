@@ -37,7 +37,7 @@ namespace Aslenos.Views
                 new Option
                 {
                     Name = "Open trend graphic",
-                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendGraphicPage()))
+                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage())))
                 }
             };
 

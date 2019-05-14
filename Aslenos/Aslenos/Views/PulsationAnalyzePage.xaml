@@ -15,7 +15,7 @@
         <Grid Margin="5">
 
             <Grid.BindingContext>
-                <local:DevicDataViewModel/>
+                <local:DeviceDataViewModel/>
             </Grid.BindingContext>
 
             <Grid.ColumnDefinitions>

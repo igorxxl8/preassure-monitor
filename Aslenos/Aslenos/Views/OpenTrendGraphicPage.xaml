@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
-             x:Class="Aslenos.Views.OpenTrendGraphicPage"
-             xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos">
+             x:Class="Aslenos.Views.OpenTrendGraphicPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <chart:ChartColorCollection x:Key="ColorRed">
@@ -14,19 +13,17 @@
             </chart:ChartColorCollection>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Data" Order="Primary" Priority="0" Clicked="DataButton_OnClicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Margin="5">
-            <Grid.BindingContext>
-                <local:DevicDataViewModel/>
-            </Grid.BindingContext>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="0.45*"/>
-                <RowDefinition Height="0.45*"/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" x:Name="DataButton" Image="icon_info.png" CornerRadius="50" HorizontalOptions="End" Clicked="DataButton_OnClicked"/>
-            <chart:SfChart Grid.Row="1" x:Name="FirstChanelChart">
+            
+            <chart:SfChart Grid.Row="0" x:Name="FirstChanelChart">
                 <chart:SfChart.ColorModel>
                     <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>
                 </chart:SfChart.ColorModel>
@@ -40,8 +37,8 @@
                     <chart:NumericalAxis/>
                 </chart:SfChart.SecondaryAxis>
                 <chart:LineSeries x:Name="FirstChanelSeries" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
-        </chart:SfChart>
-            <chart:SfChart Grid.Row="2" x:Name="SecondChanelChart">
+            </chart:SfChart>
+            <chart:SfChart Grid.Row="1" x:Name="SecondChanelChart">
                 <chart:SfChart.ColorModel>
                     <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorRed}"/>
                 </chart:SfChart.ColorModel>
@@ -58,7 +55,7 @@
                 </chart:SfChart.SecondaryAxis>
                 <chart:LineSeries x:Name="SecondChanelSeries" ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
             </chart:SfChart>
-            <Grid x:Name="Ch1Data" Grid.Row="1" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
+            <Grid x:Name="Ch1Data" Grid.Row="0" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
                 <Grid.Resources>
                     <Style TargetType="Label">
                         <Setter Property="TextColor" Value="Blue"></Setter>
@@ -99,7 +96,7 @@
                 <Label Grid.Row="7" Grid.Column="1" x:Name="Ch1VacuumMin">0</Label>
                 <Label Grid.Row="8" Grid.Column="1" x:Name="Ch1VacuumMax">0</Label>
             </Grid>
-            <Grid x:Name="Ch2Data" Grid.Row="2" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
+            <Grid x:Name="Ch2Data" Grid.Row="1" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
                 <Grid.Resources>
                     <Style TargetType="Label">
                         <Setter Property="TextColor" Value="Red"></Setter>
