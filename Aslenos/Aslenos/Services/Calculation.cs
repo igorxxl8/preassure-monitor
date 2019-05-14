@@ -1,9 +1,6 @@
 ﻿using Aslenos.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using Aslenos.Models;
 
 namespace Aslenos.Services
 {
@@ -19,8 +16,6 @@ namespace Aslenos.Services
         private int packageAverageValue;
         private int samplingTime;
 
-        private bool receptionDataFlag;
-        private bool adcGraphUpdateFlag;
         private bool[] manometerUpdateFlagFirst;
         private bool[] manometerUpdateFlagSecond;
 
@@ -179,8 +174,18 @@ namespace Aslenos.Services
                         graphArrayFlag[channel] = false;
                         seriesPhaseEFlag[channel] = true;
                         seriesPhaseBFlag[channel] = true;
-                        // Это для надписей в графика
-                        // BluetoothBase.HandlerMessageSet(Constants.SERIES0_EVT[s_ID]);
+
+                        var fluctuation = graphXParamsScreen[channel, GraphParams.FLUCTUATION];
+                        var phaseA = graphXParamsScreen[channel, GraphParams.PHASE_A];
+                        var phaseB = graphXParamsScreen[channel, GraphParams.PHASE_B];
+                        var phaseC = graphXParamsScreen[channel, GraphParams.PHASE_C];
+                        var phaseD = graphXParamsScreen[channel, GraphParams.PHASE_D];
+                        var phaseE = graphXParamsScreen[channel, GraphParams.PHASE_E];
+                        var phaseF = graphXParamsScreen[channel, GraphParams.PHASE_F];
+                        var minVacuum = graphXParamsScreen[channel, GraphParams.MIN_VACUUM];
+                        var maxVacuum = graphXParamsScreen[channel, GraphParams.MAX_VACUUM];
+
+                        AddData(channel, fluctuation, phaseA, phaseB, phaseC, phaseD, phaseE, phaseF, minVacuum, maxVacuum);
                     }
                 }
 
@@ -231,8 +236,18 @@ namespace Aslenos.Services
                 if (manometerUpdateFlagSecond[channel])
                 {
                     manometerUpdateFlagSecond[channel] = false;
-                    // Это для надписей в графика
-                    // BluetoothBase.HandlerMessageSet(Constants.SERIES0_EVT[s_ID]);
+
+                    var fluctuation = graphXParamsScreen[channel, GraphParams.FLUCTUATION];
+                    var phaseA = graphXParamsScreen[channel, GraphParams.PHASE_A];
+                    var phaseB = graphXParamsScreen[channel, GraphParams.PHASE_B];
+                    var phaseC = graphXParamsScreen[channel, GraphParams.PHASE_C];
+                    var phaseD = graphXParamsScreen[channel, GraphParams.PHASE_D];
+                    var phaseE = graphXParamsScreen[channel, GraphParams.PHASE_E];
+                    var phaseF = graphXParamsScreen[channel, GraphParams.PHASE_F];
+                    var minVacuum = graphXParamsScreen[channel, GraphParams.MIN_VACUUM];
+                    var maxVacuum = graphXParamsScreen[channel, GraphParams.MAX_VACUUM];
+
+                    AddData(channel, fluctuation, phaseA, phaseB, phaseC, phaseD, phaseE, phaseF, minVacuum, maxVacuum);
                 }
             }
         }
@@ -323,9 +338,6 @@ namespace Aslenos.Services
             packageAverageValue = 0;
             samplingTime = 0;
 
-            receptionDataFlag = false;
-            adcGraphUpdateFlag = false;
-
             manometerUpdateFlagFirst = new bool[2];
             manometerUpdateFlagSecond = new bool[2];
 
@@ -354,6 +366,36 @@ namespace Aslenos.Services
             seriesFilter = new int[2];
 
             fluctuationAnalysFlag = false;
+        }
+
+        public void AddData(int channel, params double[] data)
+        {
+            if (channel == 0)
+            {
+                var firstChanel = _dataProvider.FirstChanel;
+                firstChanel.Fluctuation = data[0];
+                firstChanel.PhaseA = data[1];
+                firstChanel.PhaseB = data[2];
+                firstChanel.PhaseC = data[3];
+                firstChanel.PhaseD = data[4];
+                firstChanel.PhaseE = data[5];
+                firstChanel.PhaseF = data[6];
+                firstChanel.MinVacuum = data[7];
+                firstChanel.MaxVacuum = data[8];
+            }
+            else
+            {
+                var secondChanel = _dataProvider.SecondChanel;
+                secondChanel.Fluctuation = data[0];
+                secondChanel.PhaseA = data[1];
+                secondChanel.PhaseB = data[2];
+                secondChanel.PhaseC = data[3];
+                secondChanel.PhaseD = data[4];
+                secondChanel.PhaseE = data[5];
+                secondChanel.PhaseF = data[6];
+                secondChanel.MinVacuum = data[7];
+                secondChanel.MaxVacuum = data[8];
+            }
         }
     }
 }

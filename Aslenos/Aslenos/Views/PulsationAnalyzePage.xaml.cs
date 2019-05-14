@@ -31,7 +31,7 @@ namespace Aslenos.Views
 
             _vm = new DeviceDataViewModel();
             _ddp = DeviceDataProvider.GetProvider;
-            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
+            _timer = new StoppableTimer(TimeSpan.FromMilliseconds(Constants.UPDATE_INTERVAL), TimerTick);
             FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData;
             SecondChanelSeries.ItemsSource = _vm.SecondChanelSeriesData;
         }
