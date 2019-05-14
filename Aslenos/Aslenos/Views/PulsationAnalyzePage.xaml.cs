@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using Aslenos.Interfaces;
-using Aslenos.Models;
+#define DEBUG
+using System;
+using Aslenos.Helpers;
 using Aslenos.Services;
 using Aslenos.ViewModel;
-using Syncfusion.SfChart.XForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,9 +16,20 @@ namespace Aslenos.Views
         private readonly DeviceDataProvider _ddp;
         private readonly JsonDataKeeper<DeviceDataViewModel> _jsonKeeper;
 
+        private Bluetooth Bluetooth { get; }
+
+        private readonly MockImpulseInvoker _impulseInvoker;
+
         public PulsationAnalyzePage()
         {
             InitializeComponent();
+
+            Bluetooth = DependencyService.Get<Bluetooth>();
+
+#if DEBUG
+            _impulseInvoker = new MockImpulseInvoker();
+#endif
+
             _vm = new DeviceDataViewModel();
             _ddp = DeviceDataProvider.GetProvider;
             _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
@@ -43,11 +52,21 @@ namespace Aslenos.Views
         private void StopButton_OnClicked(object sender, EventArgs e)
         {
             _timer.Stop();
+#if DEBUG
+            _impulseInvoker.Stop();
+#else
+            Bluetooth.SendCommand(Commands.STOP);
+#endif
         }
 
         private void StartButton_OnClicked(object sender, EventArgs e)
         {
             _timer.Start();
+#if DEBUG
+            _impulseInvoker.Start();
+#else
+            Bluetooth.SendCommand(Commands.START);
+#endif
         }
 
         protected override void OnAppearing()
