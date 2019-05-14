@@ -24,6 +24,15 @@ namespace Aslenos.Services
             _dataProvider.SecondChanel.AxesX+=2;
             _dataProvider.SecondChanel.AxesY+=2;
             _dataProvider.SecondChanel = new RealTimeDeviceData(_dataProvider.SecondChanel.AxesX, _dataProvider.SecondChanel.AxesY);
+            _dataProvider.SecondChanel.Fluctuation = 0;
+            _dataProvider.SecondChanel.PhaseA = 1;
+            _dataProvider.SecondChanel.PhaseB = 2;
+            _dataProvider.SecondChanel.PhaseC = 3;
+            _dataProvider.SecondChanel.PhaseD = 4;
+            _dataProvider.SecondChanel.PhaseE = 5;
+            _dataProvider.SecondChanel.PhaseF = 6;
+            _dataProvider.SecondChanel.MinVacuum = 7;
+            _dataProvider.SecondChanel.MaxVacuum = 8;
         }
 
         public void Start()

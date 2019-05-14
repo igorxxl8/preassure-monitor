@@ -41,6 +41,7 @@ namespace Aslenos.Views
         private void TimerTick()
         {
             _vm.FirstChanelSeriesData.Add(_ddp.FirstChanel);
+
             _vm.SecondChanelSeriesData.Add(_ddp.SecondChanel);
         }
 
