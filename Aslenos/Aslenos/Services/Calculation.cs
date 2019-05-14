@@ -360,7 +360,7 @@ namespace Aslenos.Services
 
             seriesFilter = new int[2];
 
-            fluctuationAnalysFlag = false;
+            fluctuationAnalysFlag = true;
         }
 
         public void AddData(int channel, params double[] data)
