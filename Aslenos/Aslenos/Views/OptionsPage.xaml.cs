@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Aslenos.Interfaces;
 using Aslenos.Models;
 using Aslenos.Services;
+using Aslenos.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,6 +14,7 @@ namespace Aslenos.Views
     public partial class OptionsPage : ContentPage
     {
         private Bluetooth Bluetooth { get; }
+        private DeviceDataViewModel _lastData;
 
         public OptionsPage()
         {
@@ -26,22 +31,34 @@ namespace Aslenos.Views
                 },
                 new Option
                 {
-                    Name = "Manometer",
-                    Command = new Command(() => Navigation.PushModalAsync(new ManometerPage()))
-                },
-                new Option
-                {
                     Name = "Open trend",
                     Command = new Command(() => Navigation.PushModalAsync(new OpenTrendPage()))
                 },
                 new Option
                 {
                     Name = "Open trend graphic",
-                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage())))
+                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage(_lastData))))
                 }
             };
 
             OptionsList.ItemSelected += OnOptionSelected;
+        }
+
+        private async void LoadLastDataModel()
+        {
+            var _fileWorker = DependencyService.Get<IFileWorker>();
+            var _jsonKeeper = new JsonDataKeeper<DeviceDataViewModel>();
+            var files = _fileWorker.GetFilesAsync().Result.ToArray();
+
+            if (files.Length == 0)
+            {
+                _lastData = new DeviceDataViewModel();
+            }
+            else
+            {
+                _jsonKeeper.Filename = files[files.Length - 1];
+                _lastData = await _jsonKeeper.Browse();
+            }
         }
 
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
@@ -51,6 +68,8 @@ namespace Aslenos.Views
 
         protected override void OnAppearing()
         {
+            LoadLastDataModel();
+
             if (Bluetooth.IsDeviceConnect())
             {
                 OptionsList.IsEnabled = true;
