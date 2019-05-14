@@ -1,7 +1,4 @@
-﻿#define DEBUG
-using System;
-using Aslenos.Helpers;
-using Aslenos.Services;
+﻿using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 namespace Aslenos.Views
@@ -22,10 +19,6 @@ namespace Aslenos.Views
             DevicesList.Refreshing += (s, e) => ReScanDevices();
 
             StartSearchDevices();
-
-#if DEBUG
-            _impulseInvoker = new MockImpulseInvoker();
-#endif
         }
 
 
@@ -68,23 +61,6 @@ namespace Aslenos.Views
             DevicesList.IsRefreshing = false;
         }
 
-        private void StartADC_Clicked(object sender, EventArgs e)
-        {
-#if DEBUG
-            _impulseInvoker.Start();
-#else
-            Bluetooth.SendCommand(Commands.START);
-#endif
-        }
-
-        private void StopADC_Clicked(object sender, EventArgs e)
-        {
-#if DEBUG
-             _impulseInvoker.Stop();
-#else
-            Bluetooth.SendCommand(Commands.STOP);
-#endif
-        }
 
         private async void StartSearchDevices()
         {
