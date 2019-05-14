@@ -1,4 +1,4 @@
-﻿
+﻿#define DEBUG
 using System;
 using Aslenos.Helpers;
 using Aslenos.Services;
@@ -11,6 +11,8 @@ namespace Aslenos.Views
     {
         private Bluetooth Bluetooth { get; }
 
+        private readonly MockImpulseInvoker _impulseInvoker;
+
         public BrowsePage()
         {
             InitializeComponent();
@@ -20,6 +22,10 @@ namespace Aslenos.Views
             DevicesList.Refreshing += (s, e) => ReScanDevices();
 
             StartSearchDevices();
+
+#if DEBUG
+            _impulseInvoker = new MockImpulseInvoker();
+#endif
         }
 
 

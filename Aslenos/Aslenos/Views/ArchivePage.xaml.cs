@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Aslenos.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,6 @@ namespace Aslenos.Views
             InitializeComponent();
             OptionsList.ItemsSource = new List<Option>
             {
-                
                 new Option
                 {
                     Name = "Open trend",
@@ -22,7 +22,7 @@ namespace Aslenos.Views
                 new Option
                 {
                     Name = "Open trend graphic",
-                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendGraphicPage()))
+                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage())))
                 }
             };
 
@@ -32,6 +32,11 @@ namespace Aslenos.Views
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
         {
             ((Option)OptionsList.SelectedItem).Command.Execute(null);
+        }
+
+        private void OnOpenButtonClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
