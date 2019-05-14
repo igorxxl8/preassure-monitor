@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Aslenos.Models;
-using Aslenos.Services;
 using Aslenos.ViewModel;
-using Syncfusion.SfChart.XForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
