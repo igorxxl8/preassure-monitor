@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Aslenos.Models;
+using Aslenos.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,9 +9,14 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OptionsPage : ContentPage
     {
+        private Bluetooth Bluetooth { get; }
+
         public OptionsPage()
         {
             InitializeComponent();
+
+            Bluetooth = DependencyService.Get<Bluetooth>();
+
             OptionsList.ItemsSource = new List<Option>
             {
                 new Option
@@ -50,6 +52,26 @@ namespace Aslenos.Views
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
         {
             ((Option)OptionsList.SelectedItem).Command.Execute(null);
+        }
+
+        protected override void OnAppearing()
+        {
+            if (Bluetooth.IsDeviceConnect())
+            {
+                OptionsList.IsEnabled = true;
+            }
+            else
+            {
+                OptionsList.IsEnabled = false;
+                RequestToConnectToDevice();
+            }
+
+            base.OnAppearing();
+        }
+
+        private async void RequestToConnectToDevice()
+        {
+            await DisplayAlert("Error", "You cannot use the options when not connected to the device.\nConnect to the device and try it again.", "OK");
         }
     }
 }

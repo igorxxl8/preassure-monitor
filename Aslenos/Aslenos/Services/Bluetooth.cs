@@ -165,5 +165,21 @@ namespace Aslenos.Services
             await CharacteristicTX.WriteAsync(bytes);
 
         }
+
+        public void MonitorBluetoothStatus(Action<bool> action)
+        {
+            BluetoothLE.StateChanged += (s, e) => action.Invoke(BluetoothLE.State == BluetoothState.On);
+        }
+
+        public void MonitorConnectedStatus(Action action)
+        {
+            Adapter.DeviceConnected += (s, e) => action.Invoke();
+        }
+
+        public void MonitorConnectedLostStatus(Action action)
+        {
+            Adapter.DeviceConnectionLost += (s, e) => action.Invoke();
+            Adapter.DeviceDisconnected += (s, e) => action.Invoke();
+        }
     }
 }
