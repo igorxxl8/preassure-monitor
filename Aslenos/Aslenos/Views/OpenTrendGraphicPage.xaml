@@ -27,15 +27,15 @@
                 <RowDefinition Height="0.45*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
-                <Grid>
+                <Grid HorizontalOptions="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" x:Name="StartButton" Text="Start" Clicked="StartButton_OnClicked"/>
-                    <Button Grid.Column="1" x:Name="StopButton" Text="Stop" Clicked="StopButton_OnClicked"/>
-                    <Button Grid.Column="2" x:Name="DataButton" Text="Data" Clicked="DataButton_OnClicked"/>
+                    <Button Grid.Column="0" x:Name="StartButton" Image="icon_start.png" Clicked="StartButton_OnClicked"/>
+                    <Button Grid.Column="1" x:Name="StopButton" Image="icon_pause.png" Clicked="StopButton_OnClicked"/>
+                    <Button Grid.Column="2" x:Name="DataButton" Image="icon_info.png" Clicked="DataButton_OnClicked"/>
                 </Grid>
 
             </Grid>

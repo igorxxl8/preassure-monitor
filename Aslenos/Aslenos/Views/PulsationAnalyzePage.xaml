@@ -22,8 +22,8 @@
                 <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="0.9*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" >
-                <Grid>
+            <Grid Grid.Column="0">
+                <Grid VerticalOptions="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
