@@ -17,7 +17,7 @@ namespace Aslenos.Services
         }
 
         public static DeviceDataProvider GetProvider { get; } = new DeviceDataProvider();
-        public RealTimeDeviceData FirstChanel { get; }
-        public RealTimeDeviceData SecondChanel { get; }
+        public RealTimeDeviceData FirstChanel { get; set; }
+        public RealTimeDeviceData SecondChanel { get; set; }
     }
 }

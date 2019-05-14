@@ -11,12 +11,12 @@ namespace Aslenos.Views
     public partial class OpenTrendGraphicPage : ContentPage
     {
 
-        public OpenTrendGraphicPage()
+        public OpenTrendGraphicPage(DeviceDataViewModel deviceData=null)
         {
             InitializeComponent();
 
             // load data in graphic here
-            BindingContext = new DeviceDataViewModel(
+            BindingContext = deviceData ?? new DeviceDataViewModel(
                 new List<RealTimeDeviceData>
                 {
                     new RealTimeDeviceData

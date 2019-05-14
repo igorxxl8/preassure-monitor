@@ -1,6 +1,7 @@
 ﻿using Aslenos.Helpers;
 using System.Collections.Generic;
 using System.Threading;
+using Aslenos.Models;
 
 namespace Aslenos.Services
 {
@@ -104,21 +105,15 @@ namespace Aslenos.Services
             {
                 if (i % 2 == 0)
                 {
-                    var firstChanel = _dataProvider.FirstChanel;
                     var point = adcData[bufferNumber ^ 1, i];
                     FindFluctuations(point, 0);
-
-                    firstChanel.AxesX++;
-                    firstChanel.AxesY = point;
+                    _dataProvider.FirstChanel = new RealTimeDeviceData(_dataProvider.FirstChanel.AxesX++, point);
                 }
                 else
                 {
-                    var secondChanel = _dataProvider.SecondChanel;
                     var point = adcData[bufferNumber ^ 1, i] - 289;
                     FindFluctuations(point, 1);
-
-                    secondChanel.AxesX++;
-                    secondChanel.AxesY = point;
+                    _dataProvider.SecondChanel = new RealTimeDeviceData(_dataProvider.SecondChanel.AxesX++, point);
                 }
             }
 

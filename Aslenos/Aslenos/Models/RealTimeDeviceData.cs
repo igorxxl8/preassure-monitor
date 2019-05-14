@@ -4,6 +4,16 @@
     {
         public int AxesX { get; set; }
         public double AxesY { get; set; }
+
+        public RealTimeDeviceData(int x, double y)
+        {
+            AxesX = x;
+            AxesY = y;
+        }
+
+        public RealTimeDeviceData()
+        {
+        }
         public double Fluctuation { get; set; }
         public double PhaseA { get; set; }
         public double PhaseB { get; set; }

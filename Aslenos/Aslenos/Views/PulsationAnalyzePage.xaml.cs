@@ -1,4 +1,4 @@
-#undef DEBUG
+#define DEBUG
 using System;
 using Aslenos.Helpers;
 using Aslenos.Services;
@@ -84,6 +84,7 @@ namespace Aslenos.Views
         {
             _jsonKeeper.Filename = $"{DateTime.Now:MM_dd_yyyy_HH_mm_ss}.arc";
             _jsonKeeper.Save(_vm);
+            DisplayAlert("Saved!", "", "OK");
         }
     }
 }
