@@ -15,7 +15,6 @@ namespace Aslenos
 
             DependencyService.Register<Bluetooth>();
             DependencyService.Register<Calculation>();
-            DependencyService.Register<JsonDataKeeper<IList<Device>, Device>>();
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTk4NzRAMzEzNzJlMzEyZTMwajJ1TmdoTTY1TFgzYXhGWnNnYmI4Y3NqL2EyNUZRZjcvZ0d0dmZQd1JLTT0=");
 
             MainPage = new MainPage();

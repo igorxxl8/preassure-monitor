@@ -13,6 +13,5 @@
         public double PhaseF { get; set; }
         public double MinVacuum { get; set; }
         public double MaxVacuum { get; set; }
-
     }
 }

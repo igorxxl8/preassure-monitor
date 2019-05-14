@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aslenos.Interfaces;
 using Aslenos.Models;
+using Aslenos.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +11,9 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ArchivePage : ContentPage
     {
+        private readonly IFileWorker _fileWorker;
+        private DeviceDataViewModel _deviceData;
+
         public ArchivePage()
         {
             InitializeComponent();
@@ -27,6 +32,7 @@ namespace Aslenos.Views
             };
 
             OptionsList.ItemSelected += OnOptionSelected;
+            _fileWorker = DependencyService.Get<IFileWorker>();
         }
 
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
@@ -36,7 +42,13 @@ namespace Aslenos.Views
 
         private void OnOpenButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var files = _fileWorker.GetFilesAsync();
+            foreach (var file in files.Result)
+            {
+                DisplayAlert(file, "", "OK");
+            }
+
+            _deviceData = new DeviceDataViewModel();
         }
     }
 }

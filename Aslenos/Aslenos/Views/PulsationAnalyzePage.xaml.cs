@@ -1,4 +1,4 @@
-﻿#undef DEBUG
+#undef DEBUG
 using System;
 using Aslenos.Helpers;
 using Aslenos.Services;
@@ -14,6 +14,7 @@ namespace Aslenos.Views
         private readonly DeviceDataViewModel _vm;
         private readonly StoppableTimer _timer;
         private readonly DeviceDataProvider _ddp;
+        private readonly JsonDataKeeper<DeviceDataViewModel> _jsonKeeper;
 
         private Bluetooth Bluetooth { get; }
 
@@ -34,6 +35,7 @@ namespace Aslenos.Views
             _timer = new StoppableTimer(TimeSpan.FromMilliseconds(Constants.UPDATE_INTERVAL), TimerTick);
             FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData;
             SecondChanelSeries.ItemsSource = _vm.SecondChanelSeriesData;
+            _jsonKeeper = new JsonDataKeeper<DeviceDataViewModel>();
         }
 
         private void TimerTick()
@@ -76,6 +78,12 @@ namespace Aslenos.Views
         {
             base.OnDisappearing();
             MessagingCenter.Send(this, "preventLandScape");
+        }
+
+        private void SaveButton_OnClicked(object sender, EventArgs e)
+        {
+            _jsonKeeper.Filename = $"{DateTime.Now:MM_dd_yyyy_HH_mm_ss}.arc";
+            _jsonKeeper.Save(_vm);
         }
     }
 }

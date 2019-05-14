@@ -8,8 +8,6 @@ namespace Aslenos.Views
     {
         private Bluetooth Bluetooth { get; }
 
-        private readonly MockImpulseInvoker _impulseInvoker;
-
         public BrowsePage()
         {
             InitializeComponent();
