@@ -22,7 +22,7 @@ namespace Aslenos.Views
             DevicesList.ItemsSource = Bluetooth.GetDevices();
             DevicesList.Refreshing += (s, e) => ReScanDevices();
 
-            Bluetooth.SearchDevices();
+            StartSearchDevices();
 #if DEBUG
         _impulseInvoker = new MockImpulseInvoker();
 #endif
@@ -53,7 +53,12 @@ namespace Aslenos.Views
             }
             else
             {
-                await DisplayAlert("Connection status:", "Сonnection error.", "Try again");
+                var repeat = await DisplayAlert("Connection status:", "Сonnection error.\nWould you like to reconnect?", "NO", "Try again");
+
+                if (repeat)
+                {
+                    DevicesList_ItemSelected(null, null);
+                }
             }
         }
 
@@ -79,6 +84,18 @@ namespace Aslenos.Views
 #else
             Bluetooth.SendCommand(Commands.STOP);
 #endif
+        }
+
+        private async void StartSearchDevices()
+        {
+            if (Bluetooth.IsBluetoothOn())
+            {
+                Bluetooth.SearchDevices();
+            }
+            else
+            {
+                await DisplayAlert("Error", "Please, turn on your bluetooth", "OK");
+            }
         }
     }
 }

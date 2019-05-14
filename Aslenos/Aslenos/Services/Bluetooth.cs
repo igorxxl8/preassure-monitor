@@ -49,6 +49,11 @@ namespace Aslenos.Services
             return BluetoothLE.State == BluetoothState.On;
         }
 
+        public bool IsDeviceConnect()
+        {
+            return Device.State == Plugin.BLE.Abstractions.DeviceState.Connected;
+        }
+
         public async void CheckScanningStatus()
         {
             if (Adapter.IsScanning)
@@ -69,7 +74,7 @@ namespace Aslenos.Services
             {
                 var device = a.Device;
 
-                if (!DevicesList.Contains(device))
+                if (!DevicesList.Contains(device) && device.Name != null)
                 {
                     DevicesList.Add(device);
                 }
