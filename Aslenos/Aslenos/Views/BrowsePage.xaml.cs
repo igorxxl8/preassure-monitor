@@ -68,22 +68,16 @@ namespace Aslenos.Views
             DevicesList.IsRefreshing = false;
         }
 
-        private void StartADc_Clicked(object sender, EventArgs e)
+        private void StartADC_Clicked(object sender, EventArgs e)
         {
-#if DEBUG
-            _impulseInvoker.Start();
-#else
+           // _impulseInvoker.Start();
             Bluetooth.SendCommand(Commands.START);
-#endif
         }
 
         private void StopADC_Clicked(object sender, EventArgs e)
         {
-#if DEBUG
-            _impulseInvoker.Stop();
-#else
+           // _impulseInvoker.Stop();
             Bluetooth.SendCommand(Commands.STOP);
-#endif
         }
 
         private async void StartSearchDevices()
