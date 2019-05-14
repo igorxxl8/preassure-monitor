@@ -106,14 +106,14 @@ namespace Aslenos.Services
                 if (i % 2 == 0)
                 {
                     var point = adcData[bufferNumber ^ 1, i];
-                    FindFluctuations(point, 0);
                     _dataProvider.FirstChanel = new RealTimeDeviceData(_dataProvider.FirstChanel.AxesX++, point);
+                    FindFluctuations(point, 0);
                 }
                 else
                 {
                     var point = adcData[bufferNumber ^ 1, i] - 289;
-                    FindFluctuations(point, 1);
                     _dataProvider.SecondChanel = new RealTimeDeviceData(_dataProvider.SecondChanel.AxesX++, point);
+                    FindFluctuations(point, 1);
                 }
             }
 
