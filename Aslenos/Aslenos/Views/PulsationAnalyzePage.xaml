@@ -4,13 +4,6 @@
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              x:Class="Aslenos.Views.PulsationAnalyzePage"
              xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <chart:ChartColorCollection x:Key="ColorBlue">
-                <Color>Blue</Color>
-            </chart:ChartColorCollection>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Margin="5">
 
@@ -36,9 +29,6 @@
 
             </Grid>
             <chart:SfChart Grid.Column="0" x:Name="FirstChanelChart">
-                <chart:SfChart.ColorModel>
-                    <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>
-                </chart:SfChart.ColorModel>
                 <chart:SfChart.Title>
                     <chart:ChartTitle Text="Chanel 1"/>
                 </chart:SfChart.Title>
@@ -48,15 +38,11 @@
                 <chart:SfChart.SecondaryAxis>
                     <chart:NumericalAxis/>
                 </chart:SfChart.SecondaryAxis>
-                <chart:LineSeries x:Name="FirstChanelSeries" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
+                <chart:LineSeries x:Name="FirstChanelSeries" Color="Blue" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
+                <chart:LineSeries x:Name="SecondChanelSeries" Color="Red"  ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
             </chart:SfChart>
-           
-            <Grid x:Name="Ch1Data" Grid.Column="1" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
-                <Grid.Resources>
-                    <Style TargetType="Label">
-                        <Setter Property="TextColor" Value="Blue"></Setter>
-                    </Style>
-                </Grid.Resources>
+
+            <Grid x:Name="Ch1Data" Grid.Column="0" HorizontalOptions="Start" IsVisible="False" BackgroundColor="AliceBlue" Opacity="0.5">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -69,28 +55,39 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Style="Label" Text="Oscillation:"/>
-                <Label Grid.Row="1" Grid.Column="0" Text="Phase A:" />
-                <Label Grid.Row="2" Grid.Column="0" Text="Phase B:"/>
-                <Label Grid.Row="3" Grid.Column="0" Text="Phase C:"/>
-                <Label Grid.Row="4" Grid.Column="0" Text="Phase D:"/>
-                <Label Grid.Row="5" Grid.Column="0" Text="Phase E:"/>
-                <Label Grid.Row="6" Grid.Column="0" Text="Phase F:"/>
-                <Label Grid.Row="7" Grid.Column="0" Text="Vacuum min:"/>
-                <Label Grid.Row="8" Grid.Column="0" Text="Vacuum max:"/>
+                <Label Grid.Row="0" Grid.Column="0" TextColor="Green"  Style="Label" Text="Oscillation:"/>
+                <Label Grid.Row="1" Grid.Column="0" TextColor="Green" Text="Phase A:" />
+                <Label Grid.Row="2" Grid.Column="0" TextColor="Green" Text="Phase B:"/>
+                <Label Grid.Row="3" Grid.Column="0" TextColor="Green" Text="Phase C:"/>
+                <Label Grid.Row="4" Grid.Column="0" TextColor="Green" Text="Phase D:"/>
+                <Label Grid.Row="5" Grid.Column="0"  TextColor="Green" Text="Phase E:"/>
+                <Label Grid.Row="6" Grid.Column="0" TextColor="Green" Text="Phase F:"/>
+                <Label Grid.Row="7" Grid.Column="0" TextColor="Green" Text="Vacuum min:"/>
+                <Label Grid.Row="8" Grid.Column="0" TextColor="Green" Text="Vacuum max:"/>
 
-                <Label Grid.Row="0" Grid.Column="1" x:Name="Ch1Rotation">0</Label>
-                <Label Grid.Row="1" Grid.Column="1" x:Name="Ch1PhaseA">0</Label>
-                <Label Grid.Row="2" Grid.Column="1" x:Name="Ch1PhaseB">0</Label>
-                <Label Grid.Row="3" Grid.Column="1" x:Name="Ch1PhaseC">0</Label>
-                <Label Grid.Row="4" Grid.Column="1" x:Name="Ch1PhaseD">0</Label>
-                <Label Grid.Row="5" Grid.Column="1" x:Name="Ch1PhaseE">0</Label>
-                <Label Grid.Row="6" Grid.Column="1" x:Name="Ch1PhaseF">0</Label>
-                <Label Grid.Row="7" Grid.Column="1" x:Name="Ch1VacuumMin">0</Label>
-                <Label Grid.Row="8" Grid.Column="1" x:Name="Ch1VacuumMax">0</Label>
+                <Label Grid.Row="0" Grid.Column="1" TextColor="Blue" x:Name="Ch1Rotation">0</Label>
+                <Label Grid.Row="1" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseA">0</Label>
+                <Label Grid.Row="2" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseB">0</Label>
+                <Label Grid.Row="3" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseC">0</Label>
+                <Label Grid.Row="4" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseD">0</Label>
+                <Label Grid.Row="5" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseE">0</Label>
+                <Label Grid.Row="6" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseF">0</Label>
+                <Label Grid.Row="7" Grid.Column="1" TextColor="Blue" x:Name="Ch1VacuumMin">0</Label>
+                <Label Grid.Row="8" Grid.Column="1" TextColor="Blue" x:Name="Ch1VacuumMax">0</Label>
+
+                <Label Grid.Row="0" Grid.Column="2" TextColor="Red" x:Name="Ch2Rotation">0</Label>
+                <Label Grid.Row="1" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseA">0</Label>
+                <Label Grid.Row="2" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseB">0</Label>
+                <Label Grid.Row="3" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseC">0</Label>
+                <Label Grid.Row="4" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseD">0</Label>
+                <Label Grid.Row="5" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseE">0</Label>
+                <Label Grid.Row="6" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseF">0</Label>
+                <Label Grid.Row="7" Grid.Column="2" TextColor="Red" x:Name="Ch2VacuumMin">0</Label>
+                <Label Grid.Row="8" Grid.Column="2" TextColor="Red" x:Name="Ch2VacuumMax">0</Label>
             </Grid>
         </Grid>
     </ContentPage.Content>

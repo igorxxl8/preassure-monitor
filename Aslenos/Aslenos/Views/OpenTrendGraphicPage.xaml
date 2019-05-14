@@ -3,16 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              x:Class="Aslenos.Views.OpenTrendGraphicPage">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <chart:ChartColorCollection x:Key="ColorRed">
-                <Color>Red</Color>
-            </chart:ChartColorCollection>
-            <chart:ChartColorCollection x:Key="ColorBlue">
-                <Color>Blue</Color>
-            </chart:ChartColorCollection>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Data" Order="Primary" Priority="0" Clicked="DataButton_OnClicked"/>
     </ContentPage.ToolbarItems>
@@ -24,9 +14,6 @@
             </Grid.RowDefinitions>
             
             <chart:SfChart Grid.Row="0" x:Name="FirstChanelChart">
-                <chart:SfChart.ColorModel>
-                    <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorBlue}"/>
-                </chart:SfChart.ColorModel>
                 <chart:SfChart.Title>
                     <chart:ChartTitle Text="Chanel 1"/>
                 </chart:SfChart.Title>
@@ -36,12 +23,9 @@
                 <chart:SfChart.SecondaryAxis>
                     <chart:NumericalAxis/>
                 </chart:SfChart.SecondaryAxis>
-                <chart:LineSeries x:Name="FirstChanelSeries" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
+                <chart:LineSeries x:Name="FirstChanelSeries" Color="Blue" ItemsSource="{Binding FirstChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
             </chart:SfChart>
             <chart:SfChart Grid.Row="1" x:Name="SecondChanelChart">
-                <chart:SfChart.ColorModel>
-                    <chart:ChartColorModel Palette="Custom" CustomBrushes="{StaticResource ColorRed}"/>
-                </chart:SfChart.ColorModel>
                 <chart:SfChart.Title>
                     <chart:ChartTitle Text="Chanel 2"/>
                 </chart:SfChart.Title>
@@ -53,7 +37,7 @@
                     <chart:NumericalAxis>
                     </chart:NumericalAxis>
                 </chart:SfChart.SecondaryAxis>
-                <chart:LineSeries x:Name="SecondChanelSeries" ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
+                <chart:LineSeries x:Name="SecondChanelSeries" Color="Red" ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
             </chart:SfChart>
             <Grid x:Name="Ch1Data" Grid.Row="0" IsVisible="False" HorizontalOptions="End" BackgroundColor="AliceBlue" Opacity="0.5">
                 <Grid.Resources>

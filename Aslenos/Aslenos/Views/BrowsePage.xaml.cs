@@ -70,14 +70,20 @@ namespace Aslenos.Views
 
         private void StartADC_Clicked(object sender, EventArgs e)
         {
-           // _impulseInvoker.Start();
+#if DEBUG
+            _impulseInvoker.Start();
+#else
             Bluetooth.SendCommand(Commands.START);
+#endif
         }
 
         private void StopADC_Clicked(object sender, EventArgs e)
         {
-           // _impulseInvoker.Stop();
+#if DEBUG
+             _impulseInvoker.Stop();
+#else
             Bluetooth.SendCommand(Commands.STOP);
+#endif
         }
 
         private async void StartSearchDevices()
