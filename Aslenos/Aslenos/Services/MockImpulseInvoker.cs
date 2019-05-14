@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Aslenos.Models;
 
 namespace Aslenos.Services
 {
@@ -19,8 +20,10 @@ namespace Aslenos.Services
         {
             _dataProvider.FirstChanel.AxesX++;
             _dataProvider.FirstChanel.AxesY++;
+            _dataProvider.FirstChanel = new RealTimeDeviceData(_dataProvider.FirstChanel.AxesX, _dataProvider.FirstChanel.AxesY);
             _dataProvider.SecondChanel.AxesX+=2;
             _dataProvider.SecondChanel.AxesY+=2;
+            _dataProvider.SecondChanel = new RealTimeDeviceData(_dataProvider.SecondChanel.AxesX, _dataProvider.SecondChanel.AxesY);
         }
 
         public void Start()

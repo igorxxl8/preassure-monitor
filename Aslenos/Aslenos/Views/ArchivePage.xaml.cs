@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Aslenos.Interfaces;
 using Aslenos.Models;
+using Aslenos.Services;
 using Aslenos.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,6 +15,7 @@ namespace Aslenos.Views
     {
         private readonly IFileWorker _fileWorker;
         private DeviceDataViewModel _deviceData;
+        private readonly JsonDataKeeper<DeviceDataViewModel> _jsonKeeper;
 
         public ArchivePage()
         {
@@ -27,12 +30,13 @@ namespace Aslenos.Views
                 new Option
                 {
                     Name = "Open trend graphic",
-                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage())))
+                    Command = new Command(() => Navigation.PushModalAsync(new NavigationPage(new OpenTrendGraphicPage(_deviceData))))
                 }
             };
 
             OptionsList.ItemSelected += OnOptionSelected;
             _fileWorker = DependencyService.Get<IFileWorker>();
+            _jsonKeeper = new JsonDataKeeper<DeviceDataViewModel>();
         }
 
         private void OnOptionSelected(object sender, SelectedItemChangedEventArgs e)
@@ -40,15 +44,16 @@ namespace Aslenos.Views
             ((Option)OptionsList.SelectedItem).Command.Execute(null);
         }
 
-        private void OnOpenButtonClicked(object sender, EventArgs e)
+        private async void OnOpenButtonClicked(object sender, EventArgs e)
         {
             var files = _fileWorker.GetFilesAsync();
             foreach (var file in files.Result)
             {
-                DisplayAlert(file, "", "OK");
+                await DisplayAlert(file, "", "OK");
             }
 
-            _deviceData = new DeviceDataViewModel();
+            _jsonKeeper.Filename = files.Result.ToList()[0];
+            _deviceData = await _jsonKeeper.Browse();
         }
     }
 }
