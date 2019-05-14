@@ -21,7 +21,6 @@ namespace Aslenos.Views
             InitializeComponent();
 
             Bluetooth = DependencyService.Get<Bluetooth>();
-            LoadLastDataModel();
 
             OptionsList.ItemsSource = new List<Option>
             {
@@ -69,6 +68,8 @@ namespace Aslenos.Views
 
         protected override void OnAppearing()
         {
+            LoadLastDataModel();
+
             if (Bluetooth.IsDeviceConnect())
             {
                 OptionsList.IsEnabled = true;
