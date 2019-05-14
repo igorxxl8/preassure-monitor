@@ -56,6 +56,7 @@ namespace Aslenos.Services
         public Calculation()
         {
             TimerCallback = ChangeBuffer;
+            InitData();
         }
 
         public void AdcDataSplit(byte[] data)
@@ -101,6 +102,7 @@ namespace Aslenos.Services
             }
 
             var realtimeData = DeviceDataProvider.GetProvider.Data;
+
             for (int i = 0; i < adcDataSize[bufferNumber ^ 1]; i++)
             {
                 if (i % 2 == 0)
@@ -120,6 +122,8 @@ namespace Aslenos.Services
                     realtimeData.AxesY = point;
                 }
             }
+
+            adcDataSize[bufferNumber] = 0;
         }
 
         private void FindFluctuations(double point, int channel)
@@ -295,6 +299,11 @@ namespace Aslenos.Services
         public void StopCalculation()
         {
             Timer.Dispose();
+            ResetData();
+        }
+
+        public void InitData()
+        {
             ResetData();
         }
 

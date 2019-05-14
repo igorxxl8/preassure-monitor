@@ -51,7 +51,7 @@ namespace Aslenos.Services
 
         public bool IsDeviceConnect()
         {
-            return Device.State == Plugin.BLE.Abstractions.DeviceState.Connected;
+            return Device?.State == Plugin.BLE.Abstractions.DeviceState.Connected;
         }
 
         public async void CheckScanningStatus()
@@ -168,18 +168,43 @@ namespace Aslenos.Services
 
         public void MonitorBluetoothStatus(Action<bool> action)
         {
-            BluetoothLE.StateChanged += (s, e) => action.Invoke(BluetoothLE.State == BluetoothState.On);
+            BluetoothLE.StateChanged += (s, e) =>
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    action.Invoke(BluetoothLE.State == BluetoothState.On);
+                });
+            };
         }
 
         public void MonitorConnectedStatus(Action action)
         {
-            Adapter.DeviceConnected += (s, e) => action.Invoke();
+            Adapter.DeviceConnected += (s, e) =>
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    action.Invoke();
+                });
+            };
         }
 
         public void MonitorConnectedLostStatus(Action action)
         {
-            Adapter.DeviceConnectionLost += (s, e) => action.Invoke();
-            Adapter.DeviceDisconnected += (s, e) => action.Invoke();
+            Adapter.DeviceConnectionLost += (s, e) =>
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    action.Invoke();
+                });
+            };
+
+            Adapter.DeviceDisconnected += (s, e) =>
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    action.Invoke();
+                });
+            };
         }
     }
 }

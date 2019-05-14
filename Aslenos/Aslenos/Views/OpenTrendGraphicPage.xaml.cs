@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Aslenos.Helpers;
 using Aslenos.Models;
 using Aslenos.Services;
 using Aslenos.ViewModel;
@@ -20,7 +21,7 @@ namespace Aslenos.Views
         {
             InitializeComponent();
             _vm = new RealTimeViewModel();
-            _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
+            _timer = new StoppableTimer(TimeSpan.FromMilliseconds(Constants.UPDATE_INTERVAL), TimerTick);
             BindingContext = _vm;
         }
 
