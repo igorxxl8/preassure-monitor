@@ -22,13 +22,14 @@ namespace Aslenos.Views
             _vm = new DeviceDataViewModel();
             _ddp = DeviceDataProvider.GetProvider;
             _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
-            BindingContext = _vm;
+            FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData;
+            SecondChanelSeries.ItemsSource = _vm.SecondChanelSeriesData;
         }
 
         private void TimerTick()
         {
-            ((ObservableCollection<RealTimeDeviceData>) FirstChanelSeries.ItemsSource).Add(_ddp.FirstChanel);
-            ((ObservableCollection<RealTimeDeviceData>)SecondChanelSeries.ItemsSource).Add(_ddp.SecondChanel);
+            _vm.FirstChanelSeriesData.Add(_ddp.FirstChanel);
+            _vm.SecondChanelSeriesData.Add(_ddp.SecondChanel);
         }
 
         private void DataButton_OnClicked(object sender, EventArgs e)
