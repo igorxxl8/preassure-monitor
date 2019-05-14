@@ -51,6 +51,8 @@ namespace Aslenos.Services
 
         private readonly DeviceDataProvider _dataProvider;
 
+        private static int xPoint = 0;
+
         public Calculation()
         {
             TimerCallback = ChangeBuffer;
@@ -107,13 +109,13 @@ namespace Aslenos.Services
                 {
                     var point = adcData[bufferNumber ^ 1, i];
                     FindFluctuations(point, 0);
-                    _dataProvider.FirstChanel = new RealTimeDeviceData(_dataProvider.FirstChanel.AxesX++, point);
+                    _dataProvider.FirstChanel = new RealTimeDeviceData(xPoint++, point);
                 }
                 else
                 {
-                    var point = adcData[bufferNumber ^ 1, i] - 289;
+                    var point = adcData[bufferNumber ^ 1, i];
                     FindFluctuations(point, 1);
-                    _dataProvider.SecondChanel = new RealTimeDeviceData(_dataProvider.SecondChanel.AxesX++, point);
+                    _dataProvider.SecondChanel = new RealTimeDeviceData(xPoint++, point);
                 }
             }
 
@@ -170,15 +172,15 @@ namespace Aslenos.Services
                         seriesPhaseEFlag[channel] = true;
                         seriesPhaseBFlag[channel] = true;
 
-                        var fluctuation = graphXParamsScreen[channel, GraphParams.FLUCTUATION];
-                        var phaseA = graphXParamsScreen[channel, GraphParams.PHASE_A];
-                        var phaseB = graphXParamsScreen[channel, GraphParams.PHASE_B];
-                        var phaseC = graphXParamsScreen[channel, GraphParams.PHASE_C];
-                        var phaseD = graphXParamsScreen[channel, GraphParams.PHASE_D];
-                        var phaseE = graphXParamsScreen[channel, GraphParams.PHASE_E];
-                        var phaseF = graphXParamsScreen[channel, GraphParams.PHASE_F];
-                        var minVacuum = graphXParamsScreen[channel, GraphParams.MIN_VACUUM];
-                        var maxVacuum = graphXParamsScreen[channel, GraphParams.MAX_VACUUM];
+                        var fluctuation = graphXParams[channel, GraphParams.FLUCTUATION];
+                        var phaseA = graphXParams[channel, GraphParams.PHASE_A];
+                        var phaseB = graphXParams[channel, GraphParams.PHASE_B];
+                        var phaseC = graphXParams[channel, GraphParams.PHASE_C];
+                        var phaseD = graphXParams[channel, GraphParams.PHASE_D];
+                        var phaseE = graphXParams[channel, GraphParams.PHASE_E];
+                        var phaseF = graphXParams[channel, GraphParams.PHASE_F];
+                        var minVacuum = graphXParams[channel, GraphParams.MIN_VACUUM];
+                        var maxVacuum = graphXParams[channel, GraphParams.MAX_VACUUM];
 
                         AddData(channel, fluctuation, phaseA, phaseB, phaseC, phaseD, phaseE, phaseF, minVacuum, maxVacuum);
                     }
@@ -232,15 +234,15 @@ namespace Aslenos.Services
                 {
                     manometerUpdateFlagSecond[channel] = false;
 
-                    var fluctuation = graphXParamsScreen[channel, GraphParams.FLUCTUATION];
-                    var phaseA = graphXParamsScreen[channel, GraphParams.PHASE_A];
-                    var phaseB = graphXParamsScreen[channel, GraphParams.PHASE_B];
-                    var phaseC = graphXParamsScreen[channel, GraphParams.PHASE_C];
-                    var phaseD = graphXParamsScreen[channel, GraphParams.PHASE_D];
-                    var phaseE = graphXParamsScreen[channel, GraphParams.PHASE_E];
-                    var phaseF = graphXParamsScreen[channel, GraphParams.PHASE_F];
-                    var minVacuum = graphXParamsScreen[channel, GraphParams.MIN_VACUUM];
-                    var maxVacuum = graphXParamsScreen[channel, GraphParams.MAX_VACUUM];
+                    var fluctuation = graphXParams[channel, GraphParams.FLUCTUATION];
+                    var phaseA = graphXParams[channel, GraphParams.PHASE_A];
+                    var phaseB = graphXParams[channel, GraphParams.PHASE_B];
+                    var phaseC = graphXParams[channel, GraphParams.PHASE_C];
+                    var phaseD = graphXParams[channel, GraphParams.PHASE_D];
+                    var phaseE = graphXParams[channel, GraphParams.PHASE_E];
+                    var phaseF = graphXParams[channel, GraphParams.PHASE_F];
+                    var minVacuum = graphXParams[channel, GraphParams.MIN_VACUUM];
+                    var maxVacuum = graphXParams[channel, GraphParams.MAX_VACUUM];
 
                     AddData(channel, fluctuation, phaseA, phaseB, phaseC, phaseD, phaseE, phaseF, minVacuum, maxVacuum);
                 }
@@ -361,6 +363,8 @@ namespace Aslenos.Services
             seriesFilter = new int[2];
 
             fluctuationAnalysFlag = true;
+
+            xPoint = 0;
         }
 
         public void AddData(int channel, params double[] data)

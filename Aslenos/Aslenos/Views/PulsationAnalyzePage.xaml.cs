@@ -1,5 +1,6 @@
-#define DEBUG
+#undef DEBUG
 using System;
+using System.Linq;
 using Aslenos.Helpers;
 using Aslenos.Services;
 using Aslenos.ViewModel;
@@ -41,6 +42,11 @@ namespace Aslenos.Views
         private void TimerTick()
         {
             _vm.FirstChanelSeriesData.Add(_ddp.FirstChanel);
+
+            if (_vm.FirstChanelSeriesData.Where(m => m.Fluctuation != 0).Count() != 0)
+            {
+                var a = 1;
+            }
             _vm.SecondChanelSeriesData.Add(_ddp.SecondChanel);
         }
 
