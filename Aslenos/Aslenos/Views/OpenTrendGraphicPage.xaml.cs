@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Aslenos.Helpers;
 using Aslenos.Models;
 using Aslenos.Services;
 using Aslenos.ViewModel;
@@ -14,63 +13,66 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OpenTrendGraphicPage : ContentPage
     {
-        private readonly RealTimeViewModel _vm;
-        private readonly StoppableTimer _timer;
 
         public OpenTrendGraphicPage()
         {
             InitializeComponent();
-            _vm = new RealTimeViewModel();
-            _timer = new StoppableTimer(TimeSpan.FromMilliseconds(Constants.UPDATE_INTERVAL), TimerTick);
-            BindingContext = _vm;
-        }
 
-        private void TimerTick()
-        {
-            var indice = FirstChanelChart.Series.IndexOf(FirstChanelSeries);
-            if (indice < 0)
-            {
-                FirstChanelSeries.ItemsSource = _vm.FirstChanelSeriesData; 
-                FirstChanelSeries.XBindingPath = "AxesX";
-                FirstChanelSeries.YBindingPath = "AxesY";
-                FirstChanelChart.Series.Add(FirstChanelSeries);
-            }
-            else
-            {
-                var findRealTime = (LineSeries)FirstChanelChart.Series[indice];
-                ((ObservableCollection<RealTimeDeviceData>) findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
-
-            }
-
-            var indicex = SecondChanelChart.Series.IndexOf(SecondChanelSeries);
-            if (indicex < 0)
-            {
-                SecondChanelSeries.ItemsSource = _vm.SecondChanelSeriesData;
-                SecondChanelSeries.XBindingPath = "AxesX";
-                SecondChanelSeries.YBindingPath = "AxesY";
-                SecondChanelChart.Series.Add(SecondChanelSeries);
-            }
-            else
-            {
-                var findRealTime = (LineSeries)SecondChanelChart.Series[indice];
-                ((ObservableCollection<RealTimeDeviceData>)findRealTime.ItemsSource).Add(DeviceDataProvider.GetProvider.Data);
-            }
+            // load data in graphic here
+            BindingContext = new DeviceDataViewModel(
+                new List<RealTimeDeviceData>
+                {
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 1,
+                        AxesY = 2
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 3,
+                        AxesY = 9
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 7,
+                        AxesY = 20
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 4,
+                        AxesY = 5
+                    }
+                },
+                new List<RealTimeDeviceData>
+                {
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 9,
+                        AxesY = 8
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 7,
+                        AxesY = 4
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 75,
+                        AxesY = 2
+                    },
+                    new RealTimeDeviceData
+                    {
+                        AxesX = 42,
+                        AxesY = 0
+                    }
+                }
+            );
         }
 
         private void DataButton_OnClicked(object sender, EventArgs e)
         {
             Ch1Data.IsVisible = !Ch1Data.IsVisible;
             Ch2Data.IsVisible = !Ch2Data.IsVisible;
-        }
-
-        private void StopButton_OnClicked(object sender, EventArgs e)
-        {
-            _timer.Stop();
-        }
-
-        private void StartButton_OnClicked(object sender, EventArgs e)
-        {
-            _timer.Start();
         }
     }
 }

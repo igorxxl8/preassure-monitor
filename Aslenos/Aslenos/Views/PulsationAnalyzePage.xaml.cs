@@ -12,13 +12,13 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PulsationAnalyzePage : ContentPage
     {
-        private readonly RealTimeViewModel _vm;
+        private readonly DeviceDataViewModel _vm;
         private readonly StoppableTimer _timer;
 
         public PulsationAnalyzePage()
         {
             InitializeComponent();
-            _vm = new RealTimeViewModel();
+            _vm = new DeviceDataViewModel();
             _timer = new StoppableTimer(TimeSpan.FromSeconds(1), TimerTick);
             BindingContext = _vm;
         }
