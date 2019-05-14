@@ -9,53 +9,49 @@ namespace Aslenos.Services
 {
     class Calculation
     {
-        private int[,] adcData = new int[2, Constants.MAX_BUFF_SIZE];
-        private int[] adcDataSize = new int[2];
+        private int[,] adcData;
+        private int[] adcDataSize;
 
-        private int bufferNumber = 0;
+        private int bufferNumber;
+        private int packageCount;
+        private IList<int> packageCountList;
 
-        private int packageCount = 0;
-        private IList<int> packageCountList = new List<int>();
+        private int packageAverageValue;
+        private int samplingTime;
 
-        private int packageAverageValue = 0;
-        private int samplingTime = 0;
+        private bool receptionDataFlag;
+        private bool adcGraphUpdateFlag;
+        private bool[] manometerUpdateFlagFirst;
+        private bool[] manometerUpdateFlagSecond;
+
+        private bool[] seriesFluctuationsFlag;
+        private bool[] seriesPhaseBFlag;
+        private bool[] seriesPhaseEFlag;
+        private bool[] seriesPhaseFFlag;
+        private bool[] graphArrayFlag;
+
+        private double[,] graphXParams;
+        private double[,] graphXParamsScreen;
+
+        private double[] fluctuationsTime;
+        private double[] seriesMaxVacuumBuff;
+        private double[] totalVolume;
+
+        private int[,] seriesXS;
+        private int[,] seriesXSScreen;
+
+        private IList<double>[] graphArrayPreBuff;
+        private IList<double>[] graphArrayBuff;
+
+        private IList<double>[] graphArray;
+        private IList<double>[] graphArrayScreen;
+
+        private int[] seriesFilter;
+
+        private bool fluctuationAnalysFlag;
 
         private TimerCallback TimerCallback { get; }
         private Timer Timer { get; set; }
-
-        static bool receptionDataFlag = false;
-        static bool adcGraphUpdateFlag = false;
-        static bool[] manometerUpdateFlag = new bool[2];
-        static bool[] manometerUpdateFlag_t = new bool[2];
-
-        static bool[] series_fluctuations_flag = { true, true };
-        static bool[] series_phase_e_flag = { false, false };
-        static bool[] series_phase_f_flag = { false, false };
-        static bool[] series_phase_b_flag = { false, false };
-        static bool[] graph_array_flag = { true, true };
-
-        static double[,] graphX_params = new double[2, 9];
-        static double[,] graphX_params_scrin = new double[2, 9];
-
-        static double[] fluctuations_time = new double[2];
-        static double[] series_max_vacuum_buf = new double[2];
-        static double[] total_volume = new double[2];
-
-        static int[,] series_x_s = new int[2, 4];
-        static int[,] series_x_s_scrin = new int[2, 4];
-
-        static IList<double>[] graph_array_preBuf = new List<double>[] { new List<double>(), new List<double>() };
-        static IList<double>[] graph_array_buf_t = new List<double>[] { new List<double>(), new List<double>() };
-        int array_preBuf_max_length = 50;
-
-        static IList<double>[] graph_array = new List<double>[] { new List<double>(), new List<double>() };
-        static IList<double>[] graph_array_scrin = new List<double>[] { new List<double>(), new List<double>() };
-
-
-        static int[] series_filter = new int[2];
-        static int num_filter = 3;
-
-        static bool fluctuation_analys_flag = true;
 
         public Calculation()
         {
@@ -111,170 +107,240 @@ namespace Aslenos.Services
                 {
                     var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 0);
-                    // TODO add to graphic = x: time(or just a number of point) y: point
+
                     realtimeData.AxesX++;
                     realtimeData.AxesY = point;
-
                 }
                 else
                 {
                     var point = (adcData[bufferNumber ^ 1, i] - 289) / 5.85;
                     FindFluctuations(point, 1);
+
                     realtimeData.AxesX++;
                     realtimeData.AxesY = point;
-                    // TODO add to graphic = x: time(or just a number of point) y: point
-
                 }
             }
         }
 
-        private void FindFluctuations(double ch, int s_ID)
+        private void FindFluctuations(double point, int channel)
         {
-            if (ch < graphX_params[s_ID, GraphParams.MIN_VACUUM])
+            if (point < graphXParams[channel, GraphParams.MIN_VACUUM])
             {
-                graphX_params[s_ID, GraphParams.MIN_VACUUM] = ch;
+                graphXParams[channel, GraphParams.MIN_VACUUM] = point;
             }
-            else if (ch > series_max_vacuum_buf[s_ID]) series_max_vacuum_buf[s_ID] = ch;
-            if (fluctuation_analys_flag)
+            else if (point > seriesMaxVacuumBuff[channel])
             {
-                fluctuations_time[s_ID] += samplingTime;
+                seriesMaxVacuumBuff[channel] = point;
+            }
 
-                if (graph_array_flag[s_ID])
+            if (fluctuationAnalysFlag)
+            {
+                fluctuationsTime[channel] += samplingTime;
+
+                if (graphArrayFlag[channel])
                 {
-                    if (graph_array_preBuf[s_ID].Count > array_preBuf_max_length)
+                    if (graphArrayPreBuff[channel].Count > Constants.MAX_BUFF_LENGTH)
                     {
-                        graph_array_preBuf[s_ID].RemoveAt(0);
-                        graph_array_preBuf[s_ID].Add(ch);
+                        graphArrayPreBuff[channel].RemoveAt(0);
+                        graphArrayPreBuff[channel].Add(point);
                     }
-                    else graph_array_preBuf[s_ID].Add(ch);
+                    else graphArrayPreBuff[channel].Add(point);
                 }
 
-                if (series_fluctuations_flag[s_ID] && ch > 3.5)
+                if (seriesFluctuationsFlag[channel] && point > 3.5)
                 {
-                    if (SeriesFilter(s_ID))
+                    if (SeriesFilter(channel))
                     {
-                        graphX_params[s_ID, GraphParams.PHASE_F] = fluctuations_time[s_ID];
-                        graphX_params[s_ID, GraphParams.FLUCTUATION] = graphX_params[s_ID, GraphParams.PHASE_F] + graphX_params[s_ID, GraphParams.PHASE_E];
-                        fluctuations_time[s_ID] = 0;
+                        graphXParams[channel, GraphParams.PHASE_F] = fluctuationsTime[channel];
+                        graphXParams[channel, GraphParams.FLUCTUATION] = graphXParams[channel, GraphParams.PHASE_F] + graphXParams[channel, GraphParams.PHASE_E];
+                        fluctuationsTime[channel] = 0;
 
-                        graphX_params[s_ID, GraphParams.MAX_VACUUM] = series_max_vacuum_buf[s_ID];
-                        series_max_vacuum_buf[s_ID] = 0;
+                        graphXParams[channel, GraphParams.MAX_VACUUM] = seriesMaxVacuumBuff[channel];
+                        seriesMaxVacuumBuff[channel] = 0;
 
-                        save_trend_volume(s_ID);
-                        for (int i = 0; i < graph_array_preBuf[s_ID].Count; i++)
+                        SaveTrendVolume(channel);
+
+                        for (int i = 0; i < graphArrayPreBuff[channel].Count; i++)
                         {
-                            graph_array_buf_t[s_ID].Add(graph_array_preBuf[s_ID][i]);
+                            graphArrayBuff[channel].Add(graphArrayPreBuff[channel][i]);
                         }
-                        series_x_s[s_ID, GraphParams.FLUCTUATION] = graph_array_buf_t[s_ID].Count;
 
-                        series_fluctuations_flag[s_ID] = false;
-                        graph_array_flag[s_ID] = false;
-                        series_phase_e_flag[s_ID] = true;
-                        series_phase_b_flag[s_ID] = true;
+                        seriesXS[channel, GraphParams.FLUCTUATION] = graphArrayBuff[channel].Count;
+
+                        seriesFluctuationsFlag[channel] = false;
+                        graphArrayFlag[channel] = false;
+                        seriesPhaseEFlag[channel] = true;
+                        seriesPhaseBFlag[channel] = true;
                         // Это для надписей в графика
                         // BluetoothBase.HandlerMessageSet(Constants.SERIES0_EVT[s_ID]);
                     }
                 }
 
-                if (graph_array_buf_t[s_ID] != null)
+                if (graphArrayBuff[channel] != null)
                 {
-                    if (graph_array_buf_t[s_ID].Count > 3000)
+                    if (graphArrayBuff[channel].Count > 3000)
                     {
-                        graph_array_buf_t[s_ID].RemoveAt(0);
-                        graph_array_buf_t[s_ID].Add(ch);
+                        graphArrayBuff[channel].RemoveAt(0);
+                        graphArrayBuff[channel].Add(point);
                     }
-                    else graph_array_buf_t[s_ID].Add(ch);
+                    else graphArrayBuff[channel].Add(point);
                 }
 
-                if (series_phase_e_flag[s_ID] && ch < (series_max_vacuum_buf[s_ID] - 4))
+                if (seriesPhaseEFlag[channel] && point < (seriesMaxVacuumBuff[channel] - 4))
                 {
-                    graphX_params[s_ID, GraphParams.PHASE_E] = fluctuations_time[s_ID];
-                    series_x_s[s_ID, GraphParams.PHASE_B] = graph_array_buf_t[s_ID].Count;
-                    find_phase_a(s_ID);
-                    fluctuations_time[s_ID] = 0;
-                    series_phase_e_flag[s_ID] = false;
-                    series_phase_f_flag[s_ID] = true;
+                    graphXParams[channel, GraphParams.PHASE_E] = fluctuationsTime[channel];
+                    seriesXS[channel, GraphParams.PHASE_B] = graphArrayBuff[channel].Count;
+                    FindPhaseA(channel);
+                    fluctuationsTime[channel] = 0;
+                    seriesPhaseEFlag[channel] = false;
+                    seriesPhaseFFlag[channel] = true;
                 }
 
-                if (series_phase_f_flag[s_ID] && ch < 3.5)
+                if (seriesPhaseFFlag[channel] && point < 3.5)
                 {
-                    if (SeriesFilter(s_ID))
+                    if (SeriesFilter(channel))
                     {
-                        graphX_params[s_ID, GraphParams.PHASE_C] = fluctuations_time[s_ID];
-                        series_x_s[s_ID, GraphParams.PHASE_C] = graph_array_buf_t[s_ID].Count;
+                        graphXParams[channel, GraphParams.PHASE_C] = fluctuationsTime[channel];
+                        seriesXS[channel, GraphParams.PHASE_C] = graphArrayBuff[channel].Count;
 
-                        series_fluctuations_flag[s_ID] = true;
-                        series_phase_f_flag[s_ID] = false;
-                        graph_array_flag[s_ID] = true;
-                        graph_array_preBuf[s_ID].Clear();
-                        graphX_params[s_ID, GraphParams.MIN_VACUUM] = 50.0;
+                        seriesFluctuationsFlag[channel] = true;
+                        seriesPhaseFFlag[channel] = false;
+                        graphArrayFlag[channel] = true;
+                        graphArrayPreBuff[channel].Clear();
+                        graphXParams[channel, GraphParams.MIN_VACUUM] = 50.0;
                     }
                 }
             }
             else
             {
-                if (!manometerUpdateFlag[s_ID]) manometerUpdateFlag[s_ID] = true;
-                total_volume[s_ID] = ch;
-                if (manometerUpdateFlag_t[s_ID])
+                if (!manometerUpdateFlagFirst[channel])
                 {
-                    manometerUpdateFlag_t[s_ID] = false;
+                    manometerUpdateFlagFirst[channel] = true;
+                }
+
+                totalVolume[channel] = point;
+
+                if (manometerUpdateFlagSecond[channel])
+                {
+                    manometerUpdateFlagSecond[channel] = false;
                     // Это для надписей в графика
                     // BluetoothBase.HandlerMessageSet(Constants.SERIES0_EVT[s_ID]);
                 }
             }
         }
 
-        private bool SeriesFilter(int s_ID)
+        private bool SeriesFilter(int channel)
         {
-            series_filter[s_ID]++;
-            if (series_filter[s_ID] > num_filter)
+            seriesFilter[channel]++;
+
+            if (seriesFilter[channel] > Constants.FILTER_NUMBER)
             {
-                series_filter[s_ID] = 0;
+                seriesFilter[channel] = 0;
+
                 return true;
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
-        private void find_phase_a(int ID)
+        private void FindPhaseA(int channel)
         {
-            int max_size = graph_array_buf_t[ID].Count;
-            int null_point = graph_array_preBuf[ID].Count;
-            int phase_e_length = max_size - null_point;
-            double step_time = graphX_params[ID, GraphParams.PHASE_E] / phase_e_length;
-            double phase_a_time = 0.0;
+            int maxSize = graphArrayBuff[channel].Count;
+            int nullPoint = graphArrayPreBuff[channel].Count;
 
-            for (int i = null_point; i < max_size; i++)
+            int phaseELength = maxSize - nullPoint;
+
+            double stepTime = graphXParams[channel, GraphParams.PHASE_E] / phaseELength;
+
+            double phaseATime = 0.0;
+
+            for (int i = nullPoint; i < maxSize; i++)
             {
-                phase_a_time += step_time;
-                if (graph_array_buf_t[ID][i] > (series_max_vacuum_buf[ID] - 4))
+                phaseATime += stepTime;
+
+                if (graphArrayBuff[channel][i] > (seriesMaxVacuumBuff[channel] - 4))
                 {
-                    graphX_params[ID, GraphParams.PHASE_A] = phase_a_time;
-                    series_x_s[ID, GraphParams.PHASE_A] = i;
+                    graphXParams[channel, GraphParams.PHASE_A] = phaseATime;
+                    seriesXS[channel, GraphParams.PHASE_A] = i;
+
                     return;
                 }
             }
 
         }
 
-        private void save_trend_volume(int s_ID)
+        private void SaveTrendVolume(int channel)
         {
-            graph_array[s_ID].Clear();
-            for (int i = 0; i < graph_array_buf_t[s_ID].Count; i++)
+            graphArray[channel].Clear();
+
+            for (int i = 0; i < graphArrayBuff[channel].Count; i++)
             {
-                graph_array[s_ID].Add(graph_array_buf_t[s_ID][i]);
+                graphArray[channel].Add(graphArrayBuff[channel][i]);
             }
-            graph_array_buf_t[s_ID].Clear();
+            graphArrayBuff[channel].Clear();
         }
 
-        public void StartTimer()
+        public void StartCalculation(bool fluctuationFlag = false)
         {
+            if (fluctuationFlag)
+            {
+                fluctuationAnalysFlag = true;
+            }
+
             Timer = new Timer(TimerCallback, null, 0, Constants.UPDATE_INTERVAL);
         }
 
-        public void StopTimer()
+        public void StopCalculation()
         {
             Timer.Dispose();
+            ResetData();
         }
 
+        private void ResetData()
+        {
+            adcData = new int[2, Constants.MAX_BUFF_SIZE];
+            adcDataSize = new int[2];
+
+            bufferNumber = 0;
+            packageCount = 0;
+            packageCountList = new List<int>();
+
+            packageAverageValue = 0;
+            samplingTime = 0;
+
+            receptionDataFlag = false;
+            adcGraphUpdateFlag = false;
+
+            manometerUpdateFlagFirst = new bool[2];
+            manometerUpdateFlagSecond = new bool[2];
+
+            seriesFluctuationsFlag = new bool[] { true, true };
+            seriesPhaseEFlag = new bool[] { false, false };
+            seriesPhaseFFlag = new bool[] { false, false };
+            seriesPhaseBFlag = new bool[] { false, false };
+            graphArrayFlag = new bool[] { true, true };
+
+            graphXParams = new double[2, 9];
+            graphXParamsScreen = new double[2, 9];
+
+            fluctuationsTime = new double[2];
+            seriesMaxVacuumBuff = new double[2];
+            totalVolume = new double[2];
+
+            seriesXS = new int[2, 4];
+            seriesXSScreen = new int[2, 4];
+
+            graphArrayPreBuff = new List<double>[] { new List<double>(), new List<double>() };
+            graphArrayBuff = new List<double>[] { new List<double>(), new List<double>() };
+
+            graphArray = new List<double>[] { new List<double>(), new List<double>() };
+            graphArrayScreen = new List<double>[] { new List<double>(), new List<double>() };
+
+            seriesFilter = new int[2];
+
+            fluctuationAnalysFlag = false;
+        }
     }
 }

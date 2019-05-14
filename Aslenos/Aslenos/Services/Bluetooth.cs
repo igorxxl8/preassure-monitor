@@ -115,13 +115,13 @@ namespace Aslenos.Services
         public void StartAdc()
         {
             AdcStatus = true;
-            Calculation.StartTimer();
+            Calculation.StartCalculation();
         }
 
         public void StopAdc()
         {
             AdcStatus = false;
-            Calculation.StopTimer();
+            Calculation.StopCalculation();
         }
 
         public async void AddListenerForDevice()
