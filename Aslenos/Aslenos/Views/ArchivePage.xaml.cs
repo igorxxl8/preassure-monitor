@@ -25,7 +25,7 @@ namespace Aslenos.Views
                 new Option
                 {
                     Name = "Open trend",
-                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendPage()))
+                    Command = new Command(() => Navigation.PushModalAsync(new OpenTrendPage(_deviceData)))
                 },
                 new Option
                 {

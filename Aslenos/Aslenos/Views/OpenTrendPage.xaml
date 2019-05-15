@@ -1,61 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Aslenos.Models;assembly=Aslenos"
              x:Class="Aslenos.Views.OpenTrendPage">
     <ContentPage.Content>
-        <Grid x:Name="TablePulsationParams" Margin="10" BackgroundColor="Black" ColumnSpacing="3" RowSpacing="3">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid x:Name="TablePulsationParams" Margin="10" BackgroundColor="Black" ColumnSpacing="3">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontAttributes" Value="Bold"></Setter>
+                    <Setter Property="BackgroundColor" Value="White"></Setter>
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackLayout BackgroundColor="White">
-                <Label Text="Oscillation" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout BackgroundColor="White" Grid.Row="1" Grid.Column="0">
-                <Label Text="Phase A(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="2" Grid.Column="0" BackgroundColor="White">
-                <Label Text="Phase B(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="3" Grid.Column="0" BackgroundColor="White">
-                <Label Text="Phase C(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="4" Grid.Column="0" BackgroundColor="White">
-                <Label Text="Phase D(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="5" Grid.Column="0" BackgroundColor="White">
-                <Label Text="Phase E(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="6" Grid.Column="0" BackgroundColor="White">
-                <Label Text="Phase F(%)" FontAttributes="Bold"/>
-                <Label Text="ms"/>
-            </StackLayout>
-            <StackLayout Grid.Row="7" Grid.Column="0" BackgroundColor="White">
-                <Label Text="vacuum min" FontAttributes="Bold"/>
-                <Label Text="kPa"/>
-            </StackLayout>
-            <StackLayout Grid.Row="8" Grid.Column="0" BackgroundColor="White">
-                <Label Text="vacuum max" FontAttributes="Bold"/>
-                <Label Text="kPa"/>
-            </StackLayout>
+            <Grid BackgroundColor="Black" ColumnSpacing="3" RowSpacing="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label BackgroundColor="White" Text="Fluctation" />
+                <Label BackgroundColor="White" Grid.Row="1" Text="Phase A(%)"/>
+                <Label Grid.Row="2" BackgroundColor="White" Text="Phase B(%)" />
+                <Label Grid.Row="3" BackgroundColor="White" Text="Phase C(%)" />
+                <Label Grid.Row="4" BackgroundColor="White" Text="Phase D(%)" />
+                <Label Grid.Row="5" BackgroundColor="White" Text="Phase E(%)" />
+                <Label Grid.Row="6" BackgroundColor="White" Text="Phase F(%)" />
+                <Label Grid.Row="7" BackgroundColor="White" Text="vacuum min" />
+                <Label Grid.Row="8" BackgroundColor="White" Text="vacuum max" />
+            </Grid>
+            <Grid x:Name="Ch1Table" BackgroundColor="Black" Grid.Column="1" ColumnSpacing="3">
+                <Grid.BindingContext>
+                    <models:RealTimeDeviceData/>
+                </Grid.BindingContext>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Text="{Binding Fluctuation}"/>
+                <Label Grid.Row="1" Text="{Binding PhaseA}" />
+                <Label Grid.Row="2" Text="{Binding PhaseB}" />
+                <Label Grid.Row="3" Text="{Binding PhaseC}"/>
+                <Label Grid.Row="4" Text="{Binding PhaseD}"/>
+                <Label Grid.Row="5" Text="{Binding PhaseE}"/>
+                <Label Grid.Row="6" Text="{Binding PhaseF}"/>
+                <Label Grid.Row="7" Text="{Binding MinVacuum}"/>
+                <Label Grid.Row="8" Text="{Binding MaxVacuum}"/>
+            </Grid>
+            <Grid x:Name="Ch2Table" BackgroundColor="Black" Grid.Column="2" ColumnSpacing="3">
+                <Grid.BindingContext>
+                    <models:RealTimeDeviceData/>
+                </Grid.BindingContext>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Text="{Binding Fluctuation}"/>
+                <Label Grid.Row="1" Text="{Binding PhaseA}" />
+                <Label Grid.Row="2" Text="{Binding PhaseB}" />
+                <Label Grid.Row="3" Text="{Binding PhaseC}"/>
+                <Label Grid.Row="4" Text="{Binding PhaseD}"/>
+                <Label Grid.Row="5" Text="{Binding PhaseE}"/>
+                <Label Grid.Row="6" Text="{Binding PhaseF}"/>
+                <Label Grid.Row="7" Text="{Binding MinVacuum}"/>
+                <Label Grid.Row="8" Text="{Binding MaxVacuum}"/>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

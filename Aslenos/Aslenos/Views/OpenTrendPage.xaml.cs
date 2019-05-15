@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Linq;
+using Aslenos.Models;
+using Aslenos.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,21 +9,18 @@ namespace Aslenos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OpenTrendPage : ContentPage
     {
-        public OpenTrendPage()
+        public OpenTrendPage(DeviceDataViewModel deviceData)
         {
+            RealTimeDeviceData Comp(RealTimeDeviceData i1, RealTimeDeviceData i2) => i1.Fluctuation > i2.Fluctuation ? i1 : i2;
+
             InitializeComponent();
 
-            var layout = new StackLayout();
-            layout.BackgroundColor = Color.Yellow;
-            layout.Children.Add(new Label {Text = "64.4", FontAttributes = FontAttributes.Bold, FontSize = 20});
-            layout.Children.Add(new Label { Text = "931" });
-            TablePulsationParams.Children.Add(layout,1, 0);
+            var data = deviceData ?? new DeviceDataViewModel();
+            BindingContext = data;
 
-            var layout1 = new StackLayout();
-            layout1.BackgroundColor = Color.Yellow;
-            layout1.Children.Add(new Label { Text = "64.0", FontAttributes = FontAttributes.Bold, FontSize = 20 });
-            layout1.Children.Add(new Label { Text = "937.5" });
-            TablePulsationParams.Children.Add(layout1, 2, 0);
+
+            Ch1Table.BindingContext = data.FirstChanelSeriesData.Aggregate(Comp);
+            Ch2Table.BindingContext = data.SecondChanelSeriesData.Aggregate(Comp);
         }
     }
 }
