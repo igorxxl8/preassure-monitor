@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              x:Class="Aslenos.Views.PulsationAnalyzePage"
-             xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos">
+             xmlns:local="clr-namespace:Aslenos.ViewModel;assembly=Aslenos"
+             xmlns:models="clr-namespace:Aslenos.Models;assembly=Aslenos">
     <ContentPage.Content>
         <Grid Margin="5">
 
@@ -41,36 +42,60 @@
                 <chart:LineSeries x:Name="SecondChanelSeries" Color="Red"  ItemsSource="{Binding SecondChanelSeriesData}" XBindingPath="AxesX" YBindingPath="AxesY"/>
             </chart:SfChart>
 
-            <Grid x:Name="Ch1Data" Grid.Column="0" HorizontalOptions="Start" IsVisible="False" BackgroundColor="AliceBlue" Opacity="0.5">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Grid x:Name="DataPanel" Grid.Column="0" HorizontalOptions="Start" IsVisible="False" BackgroundColor="AliceBlue" Opacity="0.5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.8*"/>
-                    <ColumnDefinition Width="0.1*"/>
-                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.3*"/>
                 </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" TextColor="Green"  Style="Label" Text="Fluctuation:"/>
                 <Label Grid.Row="1" Grid.Column="0"  TextColor="Green" Text="Phase E:"/>
                 <Label Grid.Row="2" Grid.Column="0" TextColor="Green" Text="Phase F:"/>
                 <Label Grid.Row="3" Grid.Column="0" TextColor="Green" Text="Vacuum min:"/>
                 <Label Grid.Row="4" Grid.Column="0" TextColor="Green" Text="Vacuum max:"/>
-
-                <Label Grid.Row="0" Grid.Column="1" TextColor="Blue" x:Name="Ch1Rotation" Text="{Binding Source=FirstChanelSeriesData, Path=Fluctuation}"></Label>
-                <Label Grid.Row="1" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseE" Text="{Binding Source=FirstChanelSeriesData, Path=PhaseE}"></Label>
-                <Label Grid.Row="2" Grid.Column="1" TextColor="Blue" x:Name="Ch1PhaseF" Text="{Binding Source=FirstChanelSeriesData, Path=PhaseF}"></Label>
-                <Label Grid.Row="3" Grid.Column="1" TextColor="Blue" x:Name="Ch1VacuumMin" Text="{Binding Source=FirstChanelSeriesData, Path=MinVacuum}"></Label>
-                <Label Grid.Row="4" Grid.Column="1" TextColor="Blue" x:Name="Ch1VacuumMax" Text="{Binding Source=FirstChanelSeriesData, Path=MaxVacuum}"></Label>
-
-                <Label Grid.Row="0" Grid.Column="2" TextColor="Red" x:Name="Ch2Rotation" Text="{Binding Source=SecondChanelSeriesData, Path=Fluctuation}"></Label>
-                <Label Grid.Row="1" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseE" Text="{Binding Source=SecondChanelSeriesData, Path=PhaseE}"></Label>
-                <Label Grid.Row="2" Grid.Column="2" TextColor="Red" x:Name="Ch2PhaseF" Text="{Binding Source=SecondChanelSeriesData, Path=PhaseF}"></Label>
-                <Label Grid.Row="3" Grid.Column="2" TextColor="Red" x:Name="Ch2VacuumMin" Text="{Binding Source=SecondChanelSeriesData, Path=MinVacuum}"></Label>
-                <Label Grid.Row="4" Grid.Column="2" TextColor="Red" x:Name="Ch2VacuumMax" Text="{Binding Source=SecondChanelSeriesData, Path=MaxVacuum}"></Label>
+                </Grid>
+                <Grid x:Name="Ch1Data" Grid.Column="1">
+                    <Grid.BindingContext>
+                        <models:RealTimeDeviceData/>
+                    </Grid.BindingContext>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" TextColor="Blue" Text="{Binding Fluctuation}"></Label>
+                    <Label Grid.Row="1" TextColor="Blue" Text="{Binding PhaseE}"></Label>
+                    <Label Grid.Row="2" TextColor="Blue" Text="{Binding PhaseF}"></Label>
+                    <Label Grid.Row="3" TextColor="Blue" Text="{Binding MinVacuum}"></Label>
+                    <Label Grid.Row="4" TextColor="Blue" Text="{Binding MaxVacuum}"></Label>
+                </Grid>
+                <Grid x:Name="Ch2Data"  Grid.Column="2">
+                    <Grid.BindingContext>
+                        <models:RealTimeDeviceData/>
+                    </Grid.BindingContext>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" TextColor="Red" Text="{Binding Fluctuation}"></Label>
+                    <Label Grid.Row="1" TextColor="Red" Text="{Binding PhaseE}"></Label>
+                    <Label Grid.Row="2" TextColor="Red" Text="{Binding PhaseF}"></Label>
+                    <Label Grid.Row="3" TextColor="Red" Text="{Binding MinVacuum}"></Label>
+                    <Label Grid.Row="4" TextColor="Red" Text="{Binding MaxVacuum}"></Label>
+                </Grid>
             </Grid>
         </Grid>
     </ContentPage.Content>

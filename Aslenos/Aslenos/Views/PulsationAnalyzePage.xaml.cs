@@ -1,6 +1,7 @@
 #define DEBUG
 using System;
 using Aslenos.Helpers;
+using Aslenos.Models;
 using Aslenos.Services;
 using Aslenos.ViewModel;
 using Xamarin.Forms;
@@ -41,13 +42,14 @@ namespace Aslenos.Views
         private void TimerTick()
         {
             _vm.FirstChanelSeriesData.Add(_ddp.FirstChanel);
-
+            Ch1Data.BindingContext = _ddp.FirstChanel;
             _vm.SecondChanelSeriesData.Add(_ddp.SecondChanel);
+            Ch2Data.BindingContext = _ddp.SecondChanel;
         }
 
         private void DataButton_OnClicked(object sender, EventArgs e)
         {
-            Ch1Data.IsVisible = !Ch1Data.IsVisible;
+            DataPanel.IsVisible = !DataPanel.IsVisible;
         }
 
         private void StopButton_OnClicked(object sender, EventArgs e)
