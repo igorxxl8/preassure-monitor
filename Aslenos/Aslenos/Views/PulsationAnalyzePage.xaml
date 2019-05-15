@@ -43,6 +43,11 @@
             </chart:SfChart>
 
             <Grid x:Name="DataPanel" Grid.Column="0" HorizontalOptions="Start" IsVisible="False" BackgroundColor="AliceBlue" Opacity="0.5">
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="TextColor" Value="Green"></Setter>
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition Width="0.3*"/>
@@ -56,16 +61,21 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" TextColor="Green"  Style="Label" Text="Fluctuation:"/>
-                <Label Grid.Row="1" Grid.Column="0"  TextColor="Green" Text="Phase E:"/>
-                <Label Grid.Row="2" Grid.Column="0" TextColor="Green" Text="Phase F:"/>
-                <Label Grid.Row="3" Grid.Column="0" TextColor="Green" Text="Vacuum min:"/>
-                <Label Grid.Row="4" Grid.Column="0" TextColor="Green" Text="Vacuum max:"/>
+                <Label Grid.Row="0" Grid.Column="0"  Style="Label" Text="Fluctuation:"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Phase E:"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Phase F:"/>
+                <Label Grid.Row="3" Grid.Column="0" Text="Vacuum min:"/>
+                <Label Grid.Row="4" Grid.Column="0" Text="Vacuum max:"/>
                 </Grid>
                 <Grid x:Name="Ch1Data" Grid.Column="1">
                     <Grid.BindingContext>
                         <models:RealTimeDeviceData/>
                     </Grid.BindingContext>
+                    <Grid.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="TextColor" Value="Blue"></Setter>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -73,16 +83,21 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" TextColor="Blue" Text="{Binding Fluctuation}"></Label>
-                    <Label Grid.Row="1" TextColor="Blue" Text="{Binding PhaseE}"></Label>
-                    <Label Grid.Row="2" TextColor="Blue" Text="{Binding PhaseF}"></Label>
-                    <Label Grid.Row="3" TextColor="Blue" Text="{Binding MinVacuum}"></Label>
-                    <Label Grid.Row="4" TextColor="Blue" Text="{Binding MaxVacuum}"></Label>
+                    <Label Grid.Row="0" Text="{Binding Fluctuation}"></Label>
+                    <Label Grid.Row="1" Text="{Binding PhaseE}"></Label>
+                    <Label Grid.Row="2" Text="{Binding PhaseF}"></Label>
+                    <Label Grid.Row="3" Text="{Binding MinVacuum}"></Label>
+                    <Label Grid.Row="4" Text="{Binding MaxVacuum}"></Label>
                 </Grid>
                 <Grid x:Name="Ch2Data"  Grid.Column="2">
                     <Grid.BindingContext>
                         <models:RealTimeDeviceData/>
                     </Grid.BindingContext>
+                    <Grid.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="TextColor" Value="Red"></Setter>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -90,11 +105,11 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" TextColor="Red" Text="{Binding Fluctuation}"></Label>
-                    <Label Grid.Row="1" TextColor="Red" Text="{Binding PhaseE}"></Label>
-                    <Label Grid.Row="2" TextColor="Red" Text="{Binding PhaseF}"></Label>
-                    <Label Grid.Row="3" TextColor="Red" Text="{Binding MinVacuum}"></Label>
-                    <Label Grid.Row="4" TextColor="Red" Text="{Binding MaxVacuum}"></Label>
+                    <Label Grid.Row="0" Text="{Binding Fluctuation}"></Label>
+                    <Label Grid.Row="1" Text="{Binding PhaseE}"></Label>
+                    <Label Grid.Row="2" Text="{Binding PhaseF}"></Label>
+                    <Label Grid.Row="3" Text="{Binding MinVacuum}"></Label>
+                    <Label Grid.Row="4" Text="{Binding MaxVacuum}"></Label>
                 </Grid>
             </Grid>
         </Grid>
