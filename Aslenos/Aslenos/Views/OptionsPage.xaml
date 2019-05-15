@@ -12,7 +12,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label x:Name="{Binding Id}" Margin="10" Text="{Binding Name}"/>
+                            <Label x:Name="{Binding Id}" Margin="10"
+                                   TextColor="Black" FontSize="Medium" Text="{Binding Name}"/>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
