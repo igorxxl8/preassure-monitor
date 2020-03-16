@@ -17,7 +17,7 @@ Application which can connect to a bluetooth module. The application receives da
 1. _[.NET Standart](https://docs.microsoft.com/dotnet/standard/net-standard)_
 2. _[Xamarin Forms](https://docs.microsoft.com/xamarin/xamarin-forms/)_
 3. _[Azure](https://azure.microsoft.com/)_
-
+4. _[Syncfusion](https://www.syncfusion.com/)_
 
 ## Development status
 _[See here](https://bitbucket.org/turbocodegods/aslenos_core/src/master/STATUS.md)_
